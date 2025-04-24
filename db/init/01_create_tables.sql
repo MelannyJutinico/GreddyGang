@@ -265,54 +265,6 @@ CREATE TABLE prestacion_social
     FOREIGN KEY (id_tipo_prestacion) REFERENCES tipo_prestacion(id_tipo_prestacion)
 );
 
--- Tabla cambio_salario
-CREATE TABLE cambio_salario
-(
-    id_cambio_salario INT PRIMARY KEY IDENTITY(1,1),
-    id_empleado INT,
-    salario_anterior DECIMAL(18,2),
-    salario_nuevo DECIMAL(18,2),
-    fecha_cambio DATE,
-    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
-);
-
--- Tabla cambio_eps
-CREATE TABLE cambio_eps
-(
-    id_cambio_eps INT PRIMARY KEY IDENTITY(1,1),
-    id_empleado INT,
-    id_eps_anterior INT,
-    id_eps_nueva INT,
-    fecha_cambio DATE,
-    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
-    FOREIGN KEY (id_eps_anterior) REFERENCES eps(id_eps),
-    FOREIGN KEY (id_eps_nueva) REFERENCES eps(id_eps)
-);
-
--- Tabla cambio_pension
-CREATE TABLE cambio_pension
-(
-    id_cambio_pension INT PRIMARY KEY IDENTITY(1,1),
-    id_empleado INT,
-    id_pension_anterior INT,
-    id_pension_nueva INT,
-    fecha_cambio DATE,
-    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
-    FOREIGN KEY (id_pension_anterior) REFERENCES fondo_pension(id_fondo_pension),
-    FOREIGN KEY (id_pension_nueva) REFERENCES fondo_pension(id_fondo_pension)
-);
-
--- Tabla traslado_empleado
-CREATE TABLE traslado_empleado
-(
-    id_traslado INT PRIMARY KEY IDENTITY(1,1),
-    id_empleado INT,
-    id_sucursal_nueva INT,
-    fecha_traslado DATE,
-    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
-    FOREIGN KEY (id_sucursal_nueva) REFERENCES sucursal(id_sucursal)
-);
-
 -- Tabla incapacidad
 CREATE TABLE incapacidad
 (
