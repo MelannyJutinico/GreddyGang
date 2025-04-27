@@ -1,0 +1,70 @@
+CREATE OR ALTER PROCEDURE sp_generar_nomina_masiva
+    @pn_id_periodo INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @pn_id_empleado INT;
+    DECLARE @pn_id_nomina INT;
+
+    -- Validar que el periodo exista y esté ABIERTO
+    IF NOT EXISTS (
+        SELECT 1
+        FROM periodo_nomina
+        WHERE id_periodo = @pn_id_periodo
+          AND estado = 'ABIERTO'
+    )
+    BEGIN
+        RAISERROR('El periodo no existe o no está en estado ABIERTO.', 16, 1);
+        RETURN;
+    END
+
+    -- Cursor para recorrer empleados activos
+    DECLARE cur_empleados CURSOR FOR
+        SELECT id_empleado
+        FROM empleado
+        WHERE activo = 1;
+
+    OPEN cur_empleados;
+    FETCH NEXT FROM cur_empleados INTO @pn_id_empleado;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Validar que no exista ya una nómina para ese empleado en el periodo
+        IF NOT EXISTS (
+            SELECT 1
+            FROM nomina
+            WHERE id_empleado = @pn_id_empleado
+              AND id_periodo = @pn_id_periodo
+        )
+        BEGIN
+            -- 1. Crear la nómina para el empleado
+            EXEC sp_crear_nomina
+                @pn_id_empleado = @pn_id_empleado,
+                @pn_id_periodo = @pn_id_periodo;
+
+            -- 2. Obtener el id_nomina recién creada
+            SELECT @pn_id_nomina = id_nomina
+            FROM nomina
+            WHERE id_empleado = @pn_id_empleado
+              AND id_periodo = @pn_id_periodo;
+
+            -- 3. Generar devengados automáticos (sueldo, auxilio)
+            EXEC sp_generar_devengados_automaticos
+                @pn_id_nomina = @pn_id_nomina,
+                @pn_id_empleado = @pn_id_empleado;
+
+            -- 4. Generar deducciones automáticas (salud, pensión, fondo)
+            EXEC sp_generar_deducciones_automaticas
+                @pn_id_nomina = @pn_id_nomina,
+                @pn_id_empleado = @pn_id_empleado;
+        END
+
+        FETCH NEXT FROM cur_empleados INTO @pn_id_empleado;
+    END
+
+    CLOSE cur_empleados;
+    DEALLOCATE cur_empleados;
+
+    PRINT 'Nómina masiva generada exitosamente.';
+END
