@@ -151,3 +151,12 @@ CREATE TABLE provision_prestaciones (
     FOREIGN KEY (id_periodo) REFERENCES periodo_nomina(id_periodo),
     FOREIGN KEY (id_concepto_provision) REFERENCES concepto_provision(id_concepto_provision)
 );
+
+-- Tabla de Parámetros de Nómina (para configuraciones generales)
+CREATE TABLE parametro_nomina (
+    id_parametro INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    valor_numerico DECIMAL(18,2) NULL,
+    valor_texto VARCHAR(255) NULL,
+    activo BIT NOT NULL DEFAULT 1
+);
