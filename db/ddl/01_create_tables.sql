@@ -160,3 +160,4 @@ CREATE TABLE parametro_nomina (
     valor_texto VARCHAR(255) NULL,
     activo BIT NOT NULL DEFAULT 1
 );
+

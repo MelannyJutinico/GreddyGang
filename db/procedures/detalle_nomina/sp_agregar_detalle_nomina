@@ -44,3 +44,4 @@ BEGIN
 
     SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
 END
+

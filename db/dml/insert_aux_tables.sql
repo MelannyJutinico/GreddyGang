@@ -65,3 +65,4 @@ INSERT INTO parametro_nomina (nombre, valor_numerico, activo) VALUES
 ('SMMLV_TOPE_AUXILIO', 2, 1),
 ('SALARIO_INTEGRAL', 18505500, 1),
 ('SMMLV_FONDO_SOLIDARIDAD', 4, 1);
+
