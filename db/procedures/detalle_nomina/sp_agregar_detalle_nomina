@@ -1,9 +1,7 @@
 CREATE OR ALTER PROCEDURE sp_agregar_detalle_nomina
     @pn_id_nomina INT,
     @pn_id_concepto INT,
-    @pn_valor_total DECIMAL(18,2),
-    @vn_cantidad DECIMAL(10,2) = NULL,
-    @vn_valor_unitario DECIMAL(18,2) = NULL
+    @pn_valor_total DECIMAL(18,2)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -41,10 +39,8 @@ BEGIN
     VALUES (
         @pn_id_nomina,
         @pn_id_concepto,
-        @vn_cantidad,
-        @vn_valor_unitario,
         @pn_valor_total
     );
 
-    PRINT 'Detalle de nómina agregado exitosamente.';
+    SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
 END
