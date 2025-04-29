@@ -126,3 +126,4 @@ BEGIN
 
     PRINT 'Nóminas masivas generadas exitosamente.';
 END
+
