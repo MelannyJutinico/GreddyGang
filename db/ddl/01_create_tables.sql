@@ -151,3 +151,4 @@ CREATE TABLE provision_prestaciones (
     FOREIGN KEY (id_periodo) REFERENCES periodo_nomina(id_periodo),
     FOREIGN KEY (id_concepto_provision) REFERENCES concepto_provision(id_concepto_provision)
 );
+
