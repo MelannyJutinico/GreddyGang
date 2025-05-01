@@ -161,3 +161,14 @@ CREATE TABLE parametro_nomina (
     activo BIT NOT NULL DEFAULT 1
 );
 
+CREATE TABLE cesantias_pagadas (
+    id_pago INT IDENTITY(1,1) PRIMARY KEY,
+    id_empleado INT NOT NULL,
+    id_periodo INT NOT NULL,
+    salario_base DECIMAL(18,2) NOT NULL,
+    dias_trabajados INT NOT NULL,
+    valor_cesantias DECIMAL(18,2) NOT NULL,
+    fecha_registro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
+    FOREIGN KEY (id_periodo) REFERENCES periodo_nomina(id_periodo)
+);

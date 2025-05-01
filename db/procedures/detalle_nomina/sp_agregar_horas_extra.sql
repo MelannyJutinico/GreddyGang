@@ -34,6 +34,16 @@ BEGIN
         RETURN;
     END
 
+         -- Validar que la nómina NO esté liquidada
+    IF EXISTS (
+        SELECT 1 FROM nomina 
+        WHERE id_nomina = @pn_id_nomina AND estado = 'LIQUIDADA'
+    )
+    BEGIN
+        RAISERROR('No se puede modificar una nómina ya liquidada.', 16, 1);
+        RETURN;
+    END
+
     -- Obtener salario base
     SELECT @vn_salario_base = salario_base
     FROM empleado
