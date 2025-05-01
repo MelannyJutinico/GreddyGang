@@ -1,3 +1,7 @@
+CREATE DATABASE GreedyGang;
+
+USE GreedyGang;
+
 -- Tabla de Tipos de Contrato
 CREATE TABLE tipo_contrato (
     id_tipo_contrato INT IDENTITY(1,1) PRIMARY KEY,
