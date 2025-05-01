@@ -4,6 +4,10 @@ INSERT INTO tipo_contrato (nombre) VALUES
 ('Obra o labor'),
 ('Prestación de servicios');
 
+SELECT * FROM tipo_contrato;
+
+DELETE tipo_contrato WHERE id_tipo_contrato > 4;
+
 INSERT INTO nivel_riesgo_arl (id_nivel, nombre, porcentaje) VALUES
 (1, 'Muy Bajo', 0.522),
 (2, 'Bajo', 1.044),
