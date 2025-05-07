@@ -176,3 +176,12 @@ CREATE TABLE cesantias_pagadas (
     FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
     FOREIGN KEY (id_periodo) REFERENCES periodo_nomina(id_periodo)
 );
+
+CREATE TABLE log_intento_modificacion_nomina (
+    id_log INT IDENTITY(1,1) PRIMARY KEY,
+    id_nomina INT,
+    id_concepto INT,
+    usuario VARCHAR(100),
+    fecha DATETIME DEFAULT GETDATE(),
+    mensaje VARCHAR(255)
+);
