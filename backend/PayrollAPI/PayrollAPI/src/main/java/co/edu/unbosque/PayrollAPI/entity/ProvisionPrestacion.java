@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "provision_prestaciones")
-public class ProvisionPrestaciones {
+public class ProvisionPrestacion {
 
     //Atributos
 
@@ -35,10 +35,10 @@ public class ProvisionPrestaciones {
 
     //Constructores
 
-    public ProvisionPrestaciones() {
+    public ProvisionPrestacion() {
     }
 
-    public ProvisionPrestaciones(Empleado empleado, PeriodoNomina periodoNomina, ConceptoProvision conceptoProvision, BigDecimal cantidad, LocalDateTime fechaRegistro) {
+    public ProvisionPrestacion(Empleado empleado, PeriodoNomina periodoNomina, ConceptoProvision conceptoProvision, BigDecimal cantidad, LocalDateTime fechaRegistro) {
         this.empleado = empleado;
         this.periodoNomina = periodoNomina;
         this.conceptoProvision = conceptoProvision;
@@ -46,7 +46,7 @@ public class ProvisionPrestaciones {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public ProvisionPrestaciones(Integer idProvision, Empleado empleado, PeriodoNomina periodoNomina, ConceptoProvision conceptoProvision, BigDecimal cantidad, LocalDateTime fechaRegistro) {
+    public ProvisionPrestacion(Integer idProvision, Empleado empleado, PeriodoNomina periodoNomina, ConceptoProvision conceptoProvision, BigDecimal cantidad, LocalDateTime fechaRegistro) {
         this.idProvision = idProvision;
         this.empleado = empleado;
         this.periodoNomina = periodoNomina;
