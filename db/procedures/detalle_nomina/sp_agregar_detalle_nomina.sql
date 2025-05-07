@@ -28,6 +28,17 @@ BEGIN
         RETURN;
     END
 
+        -- Validar que la nómina NO esté liquidada
+    IF EXISTS (
+        SELECT 1 FROM nomina 
+        WHERE id_nomina = @pn_id_nomina AND estado = 'LIQUIDADA'
+    )
+    BEGIN
+        RAISERROR('No se puede modificar una nómina ya liquidada.', 16, 1);
+        RETURN;
+    END
+
+
     -- Insertar el detalle de la nómina
     INSERT INTO detalle_nomina (
         id_nomina,
@@ -44,3 +55,4 @@ BEGIN
 
     SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
 END
+

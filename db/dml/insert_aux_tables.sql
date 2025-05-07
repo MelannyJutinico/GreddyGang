@@ -61,3 +61,12 @@ INSERT INTO concepto_provision (nombre, activo) VALUES
 ('Cesantías', 1),
 ('Intereses sobre Cesantías', 1),
 ('Vacaciones', 1);
+
+
+INSERT INTO parametro_nomina (nombre, valor_numerico, activo) VALUES
+('SALARIO_MINIMO', 1300000, 1),
+('AUXILIO_TRANSPORTE', 162000, 1),
+('SMMLV_TOPE_AUXILIO', 2, 1),
+('SALARIO_INTEGRAL', 18505500, 1),
+('SMMLV_FONDO_SOLIDARIDAD', 4, 1);
+

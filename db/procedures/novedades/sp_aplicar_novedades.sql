@@ -47,6 +47,13 @@ BEGIN
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
+        -- Validar si el empleado tiene novedades en el periodo
+        IF dbo.fn_empleado_tiene_novedades(@pn_id_periodo, @pn_id_empleado) = 0
+        BEGIN
+            FETCH NEXT FROM empleados_cursor INTO @vn_id_nomina, @pn_id_empleado;
+            CONTINUE;
+        END
+
         -- Inicializar variables
         SET @vn_total_factor_pago = 0;
         SET @vn_total_dias_afectados = 0;

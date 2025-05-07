@@ -1,3 +1,7 @@
+CREATE DATABASE GreedyGang;
+
+USE GreedyGang;
+
 -- Tabla de Tipos de Contrato
 CREATE TABLE tipo_contrato (
     id_tipo_contrato INT IDENTITY(1,1) PRIMARY KEY,
@@ -152,3 +156,32 @@ CREATE TABLE provision_prestaciones (
     FOREIGN KEY (id_concepto_provision) REFERENCES concepto_provision(id_concepto_provision)
 );
 
+-- Tabla de Parámetros de Nómina (para configuraciones generales)
+CREATE TABLE parametro_nomina (
+    id_parametro INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    valor_numerico DECIMAL(18,2) NULL,
+    valor_texto VARCHAR(255) NULL,
+    activo BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE cesantias_pagadas (
+    id_pago INT IDENTITY(1,1) PRIMARY KEY,
+    id_empleado INT NOT NULL,
+    id_periodo INT NOT NULL,
+    salario_base DECIMAL(18,2) NOT NULL,
+    dias_trabajados INT NOT NULL,
+    valor_cesantias DECIMAL(18,2) NOT NULL,
+    fecha_registro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
+    FOREIGN KEY (id_periodo) REFERENCES periodo_nomina(id_periodo)
+);
+
+CREATE TABLE log_intento_modificacion_nomina (
+    id_log INT IDENTITY(1,1) PRIMARY KEY,
+    id_nomina INT,
+    id_concepto INT,
+    usuario VARCHAR(100),
+    fecha DATETIME DEFAULT GETDATE(),
+    mensaje VARCHAR(255)
+);
