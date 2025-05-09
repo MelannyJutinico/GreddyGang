@@ -2,6 +2,7 @@ CREATE OR ALTER VIEW vw_detalle_nomina_horas_extra AS
 SELECT 
     dn.id_detalle,
     n.id_nomina,
+    e.id_empleado,
     e.nombre AS empleado,
     c.nombre AS concepto_hora_extra,
     dn.cantidad AS horas,

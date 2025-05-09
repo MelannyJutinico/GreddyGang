@@ -2,6 +2,7 @@ CREATE OR ALTER VIEW vw_aportes_patronales_detalle AS
 SELECT 
     ap.id_aporte,
     n.id_nomina,
+    e.id_empleado,
     e.nombre AS empleado,
     tap.nombre AS tipo_aporte,
     ap.cantidad
