@@ -85,5 +85,6 @@ BEGIN
         @vn_valor_total
     );
 
-    PRINT 'Horas extra agregadas exitosamente.';
+    
+    SELECT 'OK' AS estado, 'Horas extra agregadas exitosamente.'  AS mensaje;
 END

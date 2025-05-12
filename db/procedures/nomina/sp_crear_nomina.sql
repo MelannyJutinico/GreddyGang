@@ -32,5 +32,6 @@ BEGIN
         'GENERADA'
     );
 
-    PRINT 'Nómina creada exitosamente.';
+
+    SELECT 'OK' AS estado, 'Nómina creada exitosamente.'  AS mensaje;
 END

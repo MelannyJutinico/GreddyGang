@@ -124,6 +124,8 @@ BEGIN
     CLOSE empleados_cursor;
     DEALLOCATE empleados_cursor;
 
-    PRINT 'Nóminas masivas generadas exitosamente.';
+
+    SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
+    
 END
 

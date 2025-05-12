@@ -29,5 +29,6 @@ BEGIN
         GETDATE()
     );
 
-    PRINT 'Periodo de nómina creado exitosamente.';
+
+    SELECT 'OK' AS estado,'Periodo de nómina creado exitosamente.' AS mensaje;
 END
