@@ -1,0 +1,125 @@
+body {
+    background-color: #f0f8ff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #007acc;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* Alerta visual */
+.alerta {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.alerta.exito {
+    background-color: #d1f7d6;
+    color: #257a3e;
+    border: 1px solid #8ed08f;
+}
+
+.alerta.error {
+    background-color: #fbe3e4;
+    color: #d8000c;
+    border: 1px solid #fbc2c4;
+}
+
+.formulario-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 123, 204, 0.2);
+}
+
+.formulario-container p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.formulario-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formulario-container label {
+    font-weight: bold;
+    color: #007acc;
+}
+
+.formulario-container input[type="month"],
+.formulario-container input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.formulario-container button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-container button:hover {
+    background-color: #005f99;
+}
+
+table {
+    width: 80%;
+    margin: 0 auto 40px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #007acc;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f9ff;
+}
+
+tr:hover {
+    background-color: #d6ecff;
+    cursor: pointer;
+}

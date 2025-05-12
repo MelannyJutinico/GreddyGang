@@ -1,4 +1,4 @@
-package co.edu.unbosque.PayrollAPI.dto;
+package co.edu.unbosque.PayrollAPI.dto.regular;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +24,7 @@ public class PeriodoNominaDTO {
         this.fechaFin = fechaFin;
         this.descripcion = descripcion;
     }
+
 
     public PeriodoNominaDTO(Integer idPeriodo, LocalDate fechaInicio, LocalDate fechaFin, String descripcion, String estado, LocalDateTime fechaCreacion) {
         this.idPeriodo = idPeriodo;

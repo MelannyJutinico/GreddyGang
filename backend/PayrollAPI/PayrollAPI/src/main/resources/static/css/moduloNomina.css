@@ -1,0 +1,187 @@
+body {
+    background-color: #f0f8ff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container-nomina {
+    padding: 30px;
+}
+
+.encabezado-nomina {
+    background-color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0, 123, 204, 0.2);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #007acc;
+}
+
+.modulo-nomina-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.modulo-nomina-grid > div {
+    background-color: #ffffff;
+    padding: 20px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 123, 204, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modulo-nomina-grid h3 {
+    color: #007acc;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.btn-guardar-novedad,
+.btn-guardar-concepto,
+.btn-guardar-horaextra {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.btn-guardar-novedad:hover,
+.btn-guardar-concepto:hover,
+.btn-guardar-horaextra:hover {
+    background-color: #005f99;
+}
+
+.tabla-scroll {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.tabla-empleados {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabla-empleados th {
+    background-color: #007acc;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+.tabla-empleados td {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.tabla-empleados tr:hover {
+    background-color: #e6f2ff;
+}
+
+.tabla-empleados tr.seleccionado {
+    background-color: #cce6ff;
+    font-weight: bold;
+}
+
+.tabla-novedad,
+.tabla-concepto,
+.tabla-horaextra {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+.tabla-novedad th,
+.tabla-concepto th,
+.tabla-horaextra th {
+    background-color: #007acc;
+    color: white;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabla-novedad td,
+.tabla-concepto td,
+.tabla-horaextra td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-accion,
+.btn-editar {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.btn-accion:hover,
+.btn-editar:hover {
+    background-color: #0056b3;
+}
+
+.acciones-nomina-bajo {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #d9e9f5;
+}
+
+.acciones-nomina-bajo button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 123, 204, 0.2);
+    transition: all 0.3s ease;
+}
+
+.acciones-nomina-bajo button:hover {
+    background-color: #005f99;
+    transform: translateY(-1px);
+}

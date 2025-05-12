@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Períodos de Nómina Activos</title>
+    <link rel="stylesheet" th:href="@{/css/moduloPeriodo.css}">
+</head>
+<body>
+
+<main>
+    <!-- Mensaje visual si existe -->
+    <div th:if="${mensaje}" class="alerta" th:classappend="${estado == 'OK'} ? ' exito' : ' error'">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+    <h2>Períodos de Nómina Activos</h2>
+
+    <!-- Mostrar si NO hay periodos -->
+    <div th:if="${#lists.isEmpty(periodos)}" class="formulario-container">
+        <p>No hay períodos de nómina activos.</p>
+        <form th:action="@{/periodo-nomina/crear-periodo}" method="post">
+            <label for="mesSeleccionado">Mes:</label>
+            <input type="month" id="mesSeleccionado" name="mesSeleccionado" required>
+
+            <label for="vvDescripcion">Descripción:</label>
+            <input type="text" id="vvDescripcion" name="vvDescripcion" required>
+
+            <button type="submit">Crear Período</button>
+        </form>
+    </div>
+
+    <!-- Mostrar si SÍ hay periodos -->
+    <table th:if="${not #lists.isEmpty(periodos)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Descripción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="periodo : ${periodos}" th:onclick="'window.location.href=\'/nomina/ver?periodoId=' + ${periodo.idPeriodo} + '\''" style="cursor: pointer;">
+            <td th:text="${periodo.idPeriodo}"></td>
+            <td th:text="${periodo.fechaInicio}"></td>
+            <td th:text="${periodo.fechaFin}"></td>
+            <td th:text="${periodo.descripcion}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>

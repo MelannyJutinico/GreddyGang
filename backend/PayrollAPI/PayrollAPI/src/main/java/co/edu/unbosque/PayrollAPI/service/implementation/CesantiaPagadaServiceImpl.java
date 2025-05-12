@@ -1,6 +1,6 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
 import co.edu.unbosque.PayrollAPI.entity.Mensaje;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.ICesantiaPagadaRepository;
