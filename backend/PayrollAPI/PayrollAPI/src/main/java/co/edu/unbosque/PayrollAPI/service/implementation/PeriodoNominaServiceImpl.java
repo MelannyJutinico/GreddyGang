@@ -1,7 +1,9 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.dto.regular.PeriodoNominaDTO;
 import co.edu.unbosque.PayrollAPI.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.entity.PeriodoNomina;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.IPeriodoNominaRepository;
 import co.edu.unbosque.PayrollAPI.service.interfaces.IPeriodoNominaService;
@@ -10,6 +12,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
@@ -23,10 +27,16 @@ public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
         this.repo = repo;
     }
 
-    @Override
-    public MensajeDTO spCrearPeriodo(LocalDate pdFechaInicio, LocalDate pdFechaFin, String vvDescripcion) {
 
+    @Override
+    public MensajeDTO spCrearPeriodo(String mesSeleccionado, String vvDescripcion) {
         try{
+
+            java.time.YearMonth yearMonth = java.time.YearMonth.parse(mesSeleccionado);
+            LocalDate pdFechaInicio = yearMonth.atDay(1);
+            LocalDate pdFechaFin = yearMonth.atEndOfMonth();
+
+
             Mensaje mensaje = repo
                     .spCrearPeriodo(pdFechaInicio, pdFechaFin, vvDescripcion);
 
@@ -34,8 +44,9 @@ public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
                     .map(mensaje, MensajeDTO.class);
         }
         catch(DataAccessException e){
-            throw new DataBaseException("Error al crear periodo");
+            return new MensajeDTO("NOT OK", "Error al crear periodo");
         }
+
     }
 
     @Override
@@ -50,6 +61,35 @@ public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
         }
         catch(DataAccessException e){
             throw new DataBaseException("Error al cambiar el estado del periodo");
+        }
+    }
+
+    @Override
+    public PeriodoNominaDTO spBuscarPeriodoPorId(Integer pnIdPeriodo) {
+        try{
+
+            PeriodoNomina periodoNomina = repo
+                    .spBuscarPeriodoPorId(pnIdPeriodo);
+
+            return modelMapper
+                    .map(periodoNomina, PeriodoNominaDTO.class);
+        }
+        catch(DataAccessException e){
+            throw new DataBaseException("Error al cambiar el estado del periodo");
+        }
+    }
+
+    @Override
+    public List<PeriodoNominaDTO> vwPeriodoNomina() {
+        try{
+            return repo
+                    .vwPeriodoNomina()
+                    .stream()
+                    .map((periodoNomina) -> modelMapper.map(periodoNomina, PeriodoNominaDTO.class))
+                    .collect(Collectors.toList());
+        }
+        catch(DataAccessException e){
+            throw new DataBaseException("Error al listar los periodos disponibles");
         }
     }
 

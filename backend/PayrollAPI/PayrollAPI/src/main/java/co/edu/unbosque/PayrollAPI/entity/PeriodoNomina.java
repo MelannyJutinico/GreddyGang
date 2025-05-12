@@ -41,6 +41,7 @@ public class PeriodoNomina {
         this.descripcion = descripcion;
     }
 
+
     public PeriodoNomina(Integer idPeriodo, LocalDate fechaInicio, LocalDate fechaFin, String descripcion, String estado, LocalDateTime fechaCreacion) {
         this.idPeriodo = idPeriodo;
         this.fechaInicio = fechaInicio;

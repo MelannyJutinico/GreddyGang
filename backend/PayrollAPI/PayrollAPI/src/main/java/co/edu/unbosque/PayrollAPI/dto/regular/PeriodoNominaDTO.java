@@ -1,4 +1,4 @@
-package co.edu.unbosque.PayrollAPI.dto;
+package co.edu.unbosque.PayrollAPI.dto.regular;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

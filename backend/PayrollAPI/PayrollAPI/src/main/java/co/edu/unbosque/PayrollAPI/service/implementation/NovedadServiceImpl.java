@@ -1,6 +1,7 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.dto.complex.NovedadTipoNovedadDTO;
+import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
 import co.edu.unbosque.PayrollAPI.entity.Mensaje;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.INovedadRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NovedadServiceImpl implements INovedadService {
@@ -48,6 +51,20 @@ public class NovedadServiceImpl implements INovedadService {
 
             return modelMapper
                     .map(mensaje, MensajeDTO.class);
+        }
+        catch(DataAccessException e){
+            throw new DataBaseException("Error al aplicar novedades");
+        }
+    }
+
+    @Override
+    public List<NovedadTipoNovedadDTO> spListarNovedadesUltimosDosMeses(Integer pnIdEmpleado) {
+        try{
+            return repo
+                    .spListarNovedadesUltimosDosMeses(pnIdEmpleado)
+                    .stream()
+                    .map((novedadTipoNovedadProjection -> modelMapper.map(novedadTipoNovedadProjection,NovedadTipoNovedadDTO.class)))
+                    .collect(Collectors.toList());
         }
         catch(DataAccessException e){
             throw new DataBaseException("Error al aplicar novedades");

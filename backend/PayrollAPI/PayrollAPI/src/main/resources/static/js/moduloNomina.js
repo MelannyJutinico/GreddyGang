@@ -1,16 +1,17 @@
 function seleccionarEmpleado(row, idEmpleado) {
     document.querySelectorAll(".tabla-empleados tr").forEach(tr => tr.classList.remove("seleccionado"));
     row.classList.add("seleccionado");
-    console.log("Empleado seleccionado ID:", idEmpleado);
+    document.getElementById("idEmpleadoSeleccionado").value = idEmpleado;
 }
 
 function filtrarEmpleados() {
-    const input = document.getElementById("buscadorEmpleado").value.toLowerCase();
+    const input = document.getElementById("buscadorEmpleado");
+    const filtro = input.value.toLowerCase();
     const filas = document.querySelectorAll("#tablaEmpleados tbody tr");
 
     filas.forEach(fila => {
-        const id = fila.cells[0].innerText.toLowerCase();
         const nombre = fila.cells[1].innerText.toLowerCase();
-        fila.style.display = id.includes(input) || nombre.includes(input) ? "" : "none";
+        const id = fila.cells[0].innerText;
+        fila.style.display = nombre.includes(filtro) || id.includes(filtro) ? "" : "none";
     });
 }

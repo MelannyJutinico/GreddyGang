@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface IPeriodoNominaRepository extends CrudRepository<PeriodoNomina, Integer> {
@@ -30,6 +31,25 @@ public interface IPeriodoNominaRepository extends CrudRepository<PeriodoNomina, 
             @Param("pn_id_periodo ") Integer pnIdPeriodo ,
             @Param("vv_nuevo_estado ") String vvNuevoEstado
             );
+
+
+    @Query(
+            value = "EXEC sp_buscar_periodo_por_id :pn_id_periodo ",
+            nativeQuery = true
+    )
+    PeriodoNomina spBuscarPeriodoPorId(
+            @Param("pn_id_periodo") Integer pnIdPeriodo
+    );
+
+
+    @Query(
+            value = "SELECT * FROM vw_periodo_nomina",
+            nativeQuery = true
+    )
+    List<PeriodoNomina> vwPeriodoNomina();
+
+
+
 
 
 }

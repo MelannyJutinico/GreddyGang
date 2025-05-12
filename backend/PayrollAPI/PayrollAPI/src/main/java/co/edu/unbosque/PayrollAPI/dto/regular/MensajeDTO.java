@@ -1,4 +1,4 @@
-package co.edu.unbosque.PayrollAPI.dto;
+package co.edu.unbosque.PayrollAPI.dto.regular;
 
 public class MensajeDTO {
 

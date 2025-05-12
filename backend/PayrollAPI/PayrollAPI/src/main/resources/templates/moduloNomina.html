@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Nómina</title>
+    <link rel="stylesheet" th:href="@{/css/moduloNomina.css}">
+</head>
+<body>
+
+<main class="container-nomina">
+    <div class="encabezado-nomina">
+        <span th:text="'Periodo cubierto: ' + ${periodo.fechaInicio} + ' / ' + ${periodo.fechaFin}"></span>
+        <span th:text="'Descripción: ' + ${periodo.descripcion}"></span>
+    </div>
+
+    <div class="modulo-nomina-grid">
+
+        <!-- BLOQUE EMPLEADOS -->
+        <div class="bloque-empleados">
+            <h3>Empleados</h3>
+            <input type="text" id="buscadorEmpleado" placeholder="Buscar por ID o nombre..." onkeyup="filtrarEmpleados()">
+            <div class="tabla-scroll">
+                <table class="tabla-empleados" id="tablaEmpleados">
+                    <thead>
+                    <tr><th>ID</th><th>Nombre</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="empleado : ${empleados}" th:onclick="|seleccionarEmpleado(this, ${empleado.idEmpleado})|">
+                        <td th:text="${empleado.idEmpleado}"></td>
+                        <td th:text="${empleado.nombre}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BLOQUE NOVEDADES -->
+        <div class="bloque-novedades">
+            <h3>Novedades</h3>
+            <form th:action="@{/novedad/crear}" method="post">
+                <input type="hidden" name="idPeriodo" th:value="${periodo.idPeriodo}" />
+                <input type="hidden" id="idEmpleadoSeleccionado" name="idEmpleado"
+                       th:value="${idEmpleadoSeleccionado != null ? idEmpleadoSeleccionado : ''}" required>
+
+                <label for="tipoNovedad">Tipo de Novedad:</label>
+                <select id="tipoNovedad" name="idTipoNovedad" required>
+                    <option value="">Seleccione</option>
+                    <option th:each="tipo : ${tipoNovedades}" th:value="${tipo.idTipoNovedad}" th:text="${tipo.nombre}"></option>
+                </select>
+
+                <label for="fechaInicioNovedad">Fecha Inicio:</label>
+                <input type="date" id="fechaInicioNovedad" name="fechaInicio" required>
+
+                <label for="fechaFinNovedad">Fecha Fin:</label>
+                <input type="date" id="fechaFinNovedad" name="fechaFin" required>
+
+                <label for="porcentajePago">Porcentaje de Pago:</label>
+                <input type="number" step="0.01" min="0" max="100" id="porcentajePago" name="porcentajePago" required>
+
+                <label for="observacionesNovedad">Observaciones:</label>
+                <textarea id="observacionesNovedad" name="observacion" rows="3"></textarea>
+
+                <button type="submit" class="btn-guardar-novedad">Guardar Cambios</button>
+            </form>
+
+            <div th:if="${not #lists.isEmpty(novedades)}">
+                <h4>Resumen de Novedad</h4>
+                <table class="tabla-novedad">
+                    <thead>
+                    <tr><th>Tipo</th><th>Inicio</th><th>Fin</th><th>Observaciones</th><th>Acción</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="n : ${novedades}">
+                        <td th:text="${n.tipoNovedad}"></td>
+                        <td th:text="${n.fechaInicio}"></td>
+                        <td th:text="${n.fechaFin}"></td>
+                        <td th:text="${n.observacion}"></td>
+                        <td><button class="btn-accion">Aceptar</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BLOQUE CONCEPTOS -->
+        <div class="bloque-detalle">
+            <h3>Conceptos de Nómina</h3>
+            <label for="tipoConcepto">Tipo de Concepto:</label>
+            <select id="tipoConcepto" name="tipoConcepto" required>
+                <option value="">Seleccione</option>
+                <option th:each="tc : ${tipoConceptos}" th:value="${tc.idTipoConcepto}" th:text="${tc.nombre}"></option>
+            </select>
+
+            <label for="concepto">Concepto:</label>
+            <select id="concepto" name="concepto" required>
+                <option value="">Seleccione</option>
+                <option th:each="c : ${conceptosDevengadosDeduccion}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
+            </select>
+
+            <label for="valorConcepto">Valor a cobrar/pagar:</label>
+            <input type="text" id="valorConcepto" name="valorConcepto" placeholder="Ej: 1000000">
+
+            <button class="btn-guardar-concepto">Guardar Cambios</button>
+
+            <div th:if="${not #lists.isEmpty(resumenConceptos)}">
+                <h4>Resumen de Concepto</h4>
+                <table class="tabla-concepto">
+                    <thead>
+                    <tr><th>Tipo</th><th>Concepto</th><th>Valor</th><th>Acción</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="rc : ${resumenConceptos}">
+                        <td th:text="${rc.tipo}"></td>
+                        <td th:text="${rc.nombre}"></td>
+                        <td th:text="${rc.valor}"></td>
+                        <td><button class="btn-accion">Aceptar</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BLOQUE HORAS EXTRA -->
+        <div class="bloque-horas">
+            <h3>Horas Extra</h3>
+
+            <label for="conceptoHora">Concepto:</label>
+            <select id="conceptoHora" name="conceptoHora" required>
+                <option value="">Seleccione</option>
+                <option th:each="c : ${conceptosHorasExtra}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
+            </select>
+
+            <label for="cantidadHoras">Cantidad de Horas:</label>
+            <input type="number" id="cantidadHoras" name="cantidadHoras" min="0">
+
+            <button class="btn-guardar-horaextra">Guardar Cambios</button>
+
+            <div th:if="${not #lists.isEmpty(resumenHorasExtra)}">
+                <h4>Resumen de Hora Extra</h4>
+                <table class="tabla-horaextra">
+                    <thead>
+                    <tr><th>Concepto</th><th>Cantidad</th><th>Acción</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="he : ${resumenHorasExtra}">
+                        <td th:text="${he.nombre}"></td>
+                        <td th:text="${he.cantidad}"></td>
+                        <td>
+                            <button class="btn-accion">Editar</button>
+                            <button class="btn-accion">Aceptar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div> <!-- cierre del grid -->
+
+    <!-- BOTONES DE ACCIÓN ABAJO -->
+    <div class="acciones-nomina-bajo">
+        <button>Pagar cesantías</button>
+        <button>Liquidar período</button>
+        <button>Pagar prima</button>
+    </div>
+
+</main>
+
+<script th:src="@{/js/moduloNomina.js}"></script>
+
+</body>
+</html>
