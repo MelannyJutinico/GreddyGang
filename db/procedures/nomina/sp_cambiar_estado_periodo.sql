@@ -28,5 +28,6 @@ BEGIN
     SET estado = @vv_nuevo_estado
     WHERE id_periodo = @pn_id_periodo;
 
-    PRINT 'Estado del periodo actualizado exitosamente.';
+
+    SELECT 'OK' AS estado, 'Estado del periodo actualizado exitosamente.'  AS mensaje;
 END
