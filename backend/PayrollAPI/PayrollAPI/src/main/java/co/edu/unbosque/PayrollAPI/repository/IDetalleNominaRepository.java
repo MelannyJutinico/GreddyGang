@@ -37,25 +37,5 @@ public interface IDetalleNominaRepository extends CrudRepository<DetalleNomina, 
             @Param("pn_id_periodo ") Integer pnIdPeriodo
     );
 
-    @Query(
-            value = "EXEC sp_agregar_detalle_nomina :pn_id_nomina, :pn_id_concepto, :pn_valor_total",
-            nativeQuery = true
-    )
-    Mensaje spCrearNomina(
-            @Param("pn_id_nomina") Integer pnIdNomina,
-            @Param("pn_id_concepto") Integer pnIdConcepto,
-            @Param("pn_valor_total") BigDecimal pnValorTotal
-    );
-
-    @Query(
-            value = "EXEC sp_agregar_horas_extra :pn_id_nomina, :pn_id_empleado, :pn_id_concepto, :vn_cantidad_horas",
-            nativeQuery = true
-    )
-    Mensaje spAgregarHorasExtras(
-            @Param("pn_id_nomina") Integer pnIdNomina,
-            @Param("pn_id_empleado") Integer pnIdEmpleado,
-            @Param("pn_id_concepto") Integer pnIdConcepto,
-            @Param("vn_cantidad_horas") BigDecimal vnCantidadHoras
-    );
 
 }

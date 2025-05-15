@@ -68,34 +68,4 @@ public class DetalleNominaServiceImpl implements IDetalleNominaService {
         }
     }
 
-    @Override
-    public MensajeDTO spCrearNomina(Integer pnIdNomina, Integer pnIdConcepto, BigDecimal pnValorTotal) {
-
-        try{
-            Mensaje mensaje = repo
-                    .spCrearNomina(pnIdNomina, pnIdConcepto, pnValorTotal);
-
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al crear la nómina");
-        }
-    }
-
-    @Override
-    public MensajeDTO spAgregarHorasExtras(Integer pnIdNomina, Integer pdIdEmpleado, Integer pnIdConcepto, BigDecimal vnCantidadHoras) {
-
-        try{
-            Mensaje mensaje = repo
-                    .spAgregarHorasExtras(pnIdNomina, pdIdEmpleado, pnIdConcepto, vnCantidadHoras);
-
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al agregar horas extras");
-        }
-    }
-
 }

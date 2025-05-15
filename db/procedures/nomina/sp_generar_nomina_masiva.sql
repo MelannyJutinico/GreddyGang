@@ -40,6 +40,17 @@ BEGIN
         RETURN;
     END
 
+    -- Validar si ya existen nóminas generadas para ese periodo
+    IF EXISTS (
+        SELECT 1
+        FROM nomina
+        WHERE id_periodo = @pn_id_periodo
+    )
+    BEGIN
+        RAISERROR('Ya existen registros de nómina generados para este periodo.', 16, 1);
+        RETURN;
+    END
+
     -- Cursor para recorrer empleados activos
     DECLARE empleados_cursor CURSOR FOR
         SELECT id_empleado
@@ -51,38 +62,48 @@ BEGIN
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- Verificar si ya existe nómina para ese empleado en ese periodo
-        IF NOT EXISTS (
-            SELECT 1
-            FROM nomina
-            WHERE id_empleado = @pn_id_empleado
-              AND id_periodo = @pn_id_periodo
+        -- Insertar nueva nómina
+        INSERT INTO nomina (
+            id_empleado,
+            id_periodo,
+            fecha_liquidacion,
+            estado
         )
+        VALUES (
+            @pn_id_empleado,
+            @pn_id_periodo,
+            GETDATE(),
+            'GENERADA'
+        );
+
+        -- Obtener el ID de la nómina recién creada
+        SET @vn_id_nomina = SCOPE_IDENTITY();
+
+        -- Obtener salario base y tipo de contrato
+        SELECT @vn_salario_base = salario_base,
+               @vn_id_tipo_contrato = id_tipo_contrato
+        FROM empleado
+        WHERE id_empleado = @pn_id_empleado;
+
+        -- Insertar sueldo base como devengado
+        INSERT INTO detalle_nomina (
+            id_nomina,
+            id_concepto,
+            cantidad,
+            valor_unitario,
+            valor_total
+        )
+        VALUES (
+            @vn_id_nomina,
+            1,  -- id_concepto 1 = Sueldo Base
+            NULL,
+            NULL,
+            @vn_salario_base
+        );
+
+        -- Evaluar si aplica Auxilio de Transporte
+        IF @vn_salario_base <= @vn_salario_auxilio_max AND @vn_id_tipo_contrato <> 4 -- 4 = Prestación de servicios
         BEGIN
-            -- Insertar nueva nómina
-            INSERT INTO nomina (
-                id_empleado,
-                id_periodo,
-                fecha_liquidacion,
-                estado
-            )
-            VALUES (
-                @pn_id_empleado,
-                @pn_id_periodo,
-                GETDATE(),
-                'GENERADA'
-            );
-
-            -- Obtener el ID de la nómina recién creada
-            SET @vn_id_nomina = SCOPE_IDENTITY();
-
-            -- Obtener salario base
-            SELECT @vn_salario_base = salario_base,
-                     @vn_id_tipo_contrato = id_tipo_contrato
-            FROM empleado
-            WHERE id_empleado = @pn_id_empleado;
-
-            -- Insertar sueldo base como devengado
             INSERT INTO detalle_nomina (
                 id_nomina,
                 id_concepto,
@@ -92,30 +113,11 @@ BEGIN
             )
             VALUES (
                 @vn_id_nomina,
-                1,  -- id_concepto 1 = Sueldo Base
+                2,  -- id_concepto 2 = Auxilio de Transporte
                 NULL,
                 NULL,
-                @vn_salario_base
+                @vn_valor_auxilio
             );
-
-            -- Evaluar si aplica Auxilio de Transporte
-            IF @vn_salario_base <= @vn_salario_auxilio_max AND @vn_id_tipo_contrato <> 4 -- 4 = Prestación de servicios
-            BEGIN
-                INSERT INTO detalle_nomina (
-                    id_nomina,
-                    id_concepto,
-                    cantidad,
-                    valor_unitario,
-                    valor_total
-                )
-                VALUES (
-                    @vn_id_nomina,
-                    2,  -- id_concepto 2 = Auxilio de Transporte
-                    NULL,
-                    NULL,
-                    @vn_valor_auxilio
-                );
-            END
         END
 
         FETCH NEXT FROM empleados_cursor INTO @pn_id_empleado;
@@ -124,8 +126,5 @@ BEGIN
     CLOSE empleados_cursor;
     DEALLOCATE empleados_cursor;
 
-
     SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
-    
 END
-
