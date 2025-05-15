@@ -1,12 +1,12 @@
 package co.edu.unbosque.PayrollAPI.configuration;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.ConceptoNominaDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.EmpleadoDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.NivelRiesgoArlDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.TipoContratoDTO;
-import co.edu.unbosque.PayrollAPI.entity.Empleado;
-import co.edu.unbosque.PayrollAPI.entity.NivelRiesgoArl;
-import co.edu.unbosque.PayrollAPI.entity.TipoContrato;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.ConceptoNominaDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.EmpleadoDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.NivelRiesgoArlDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.TipoContratoDTO;
+import co.edu.unbosque.PayrollAPI.model.entity.Empleado;
+import co.edu.unbosque.PayrollAPI.model.entity.NivelRiesgoArl;
+import co.edu.unbosque.PayrollAPI.model.entity.TipoContrato;
 import co.edu.unbosque.PayrollAPI.projection.ConceptoHoraExtraProjection;
 import co.edu.unbosque.PayrollAPI.projection.ConceptoTipoConceptoProjection;
 import org.modelmapper.ModelMapper;

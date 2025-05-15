@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="barra-lateral">
+    <div class="sidebar">
+        <ul>
+            <li><a th:href="@{/empleados/lista}">Empleados</a></li>
+            <li><a th:href="@{/novedades/lista(idPeriodo=${idPeriodo})}">Novedades</a></li>
+            <li><a th:href="@{/nomina/lista(idPeriodo=${idPeriodo})}">Nómina</a></li>
+            <li><a th:href="@{/contabilidad/ver(idPeriodo=${idPeriodo})}">Contabilidad</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

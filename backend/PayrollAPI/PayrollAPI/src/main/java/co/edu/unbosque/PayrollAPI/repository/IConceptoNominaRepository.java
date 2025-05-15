@@ -1,7 +1,6 @@
 package co.edu.unbosque.PayrollAPI.repository;
-
-import co.edu.unbosque.PayrollAPI.entity.ConceptoNomina;
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.entity.ConceptoNomina;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
 import co.edu.unbosque.PayrollAPI.projection.ConceptoHoraExtraProjection;
 import co.edu.unbosque.PayrollAPI.projection.ConceptoTipoConceptoProjection;
 import org.springframework.data.jpa.repository.Query;

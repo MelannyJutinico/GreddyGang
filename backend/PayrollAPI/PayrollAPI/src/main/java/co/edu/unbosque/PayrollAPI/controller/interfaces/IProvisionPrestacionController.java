@@ -12,4 +12,5 @@ public interface IProvisionPrestacionController {
     String spGenerarProvisiones(@RequestParam("pnIdPeriodo") Integer pnIdPeriodo,
                                 Model model);
 
+
 }

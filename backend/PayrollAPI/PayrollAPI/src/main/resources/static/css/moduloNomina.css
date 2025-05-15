@@ -102,6 +102,10 @@ textarea {
     position: sticky;
     top: 0;
 }
+.encabezado-resumen-nomina{
+    background-color: #007acc;
+    color: white;
+}
 
 .tabla-empleados td {
     padding: 8px;
@@ -186,6 +190,29 @@ textarea {
     transform: translateY(-1px);
 }
 
+.buscador-nomina {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.buscador-nomina input {
+    width: 50%;
+    max-width: 400px;
+    padding: 10px 15px;
+    border: 1px solid #007acc;
+    border-radius: 25px;
+    font-size: 15px;
+    box-shadow: 0 2px 5px rgba(0, 123, 204, 0.1);
+    transition: all 0.3s ease;
+}
+
+.buscador-nomina input:focus {
+    outline: none;
+    border-color: #005f99;
+    box-shadow: 0 0 6px rgba(0, 123, 204, 0.3);
+}
+
+
 .alert-success {
     background-color: #d4edda;
     border-left: 6px solid #28a745;
@@ -205,4 +232,5 @@ textarea {
     margin-bottom: 20px;
     font-size: 15px;
 }
+
 

@@ -1,7 +1,7 @@
 package co.edu.unbosque.PayrollAPI.repository;
 
-import co.edu.unbosque.PayrollAPI.entity.CesantiaPagada;
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.entity.CesantiaPagada;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
