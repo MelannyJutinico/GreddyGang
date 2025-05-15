@@ -15,3 +15,4 @@ function filtrarEmpleados() {
         fila.style.display = nombre.includes(filtro) || id.includes(filtro) ? "" : "none";
     });
 }
+

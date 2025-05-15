@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
@@ -24,7 +25,8 @@ public interface INominaController {
 
     @PostMapping("/generar-nomina-masiva")
     String spGenerarNominaMasiva(@RequestParam("pdIdPeriodo") Integer pdIdPeriodo,
-                                 Model model);
+                                 Model model,
+                                 RedirectAttributes redirectAttributes);
 
     @PostMapping("/liquidar-nomina")
     String spLiquidarNomina(@RequestParam("pdIdPeriodo") Integer pnIdPeriodo,
