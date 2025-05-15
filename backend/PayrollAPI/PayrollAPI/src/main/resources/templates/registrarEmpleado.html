@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Empleado</title>
+    <link rel="stylesheet" th:href="@{/css/crearEmpleado.css}">
+</head>
+<body>
+
+<div class="container-empleado">
+    <h1 class="titulo-empleado">Registro de Nuevo Empleado</h1>
+
+    <form th:action="@{/empleados/crear}" method="post" th:object="${empleado}" class="formulario-empleado">
+        <div class="form-empleado">
+            <label>Nombre:</label>
+            <input type="text" th:field="*{nombre}" required />
+        </div>
+
+        <div class="form-empleado">
+            <label>Cargo:</label>
+            <input type="text" th:field="*{cargo}" required />
+        </div>
+
+        <div class="form-empleado">
+            <label>Departamento:</label>
+            <input type="text" th:field="*{departamento}" required />
+        </div>
+
+        <div class="form-empleado">
+            <label>Salario Base:</label>
+            <input type="number" step="0.01" th:field="*{salarioBase}" required />
+        </div>
+
+        <div class="form-empleado">
+            <label>Fecha de Ingreso:</label>
+            <input type="date" th:field="*{fechaIngreso}" required />
+        </div>
+
+        <div class="form-empleado">
+            <label>Nivel de Riesgo ARL:</label>
+            <select th:field="*{nivelRiesgoDTO.idNivel}">
+                <option th:each="nivel : ${nivelesRiesgo}" th:value="${nivel.idNivel}" th:text="${nivel.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="form-empleado">
+            <label>Tipo de Contrato:</label>
+            <select th:field="*{tipoContratoDTO.idTipoContrato}">
+                <option th:each="tipo : ${tiposContrato}" th:value="${tipo.idTipoContrato}" th:text="${tipo.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="form-empleado">
+            <button type="submit" class="btn-registrar-empleado">Crear Empleado</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

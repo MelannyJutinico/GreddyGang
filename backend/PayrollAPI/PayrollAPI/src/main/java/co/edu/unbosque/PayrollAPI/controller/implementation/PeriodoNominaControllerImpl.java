@@ -1,8 +1,8 @@
 package co.edu.unbosque.PayrollAPI.controller.implementation;
 
 import co.edu.unbosque.PayrollAPI.controller.interfaces.IPeriodoNominaController;
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.PeriodoNominaDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.PeriodoNominaDTO;
 import co.edu.unbosque.PayrollAPI.service.interfaces.IPeriodoNominaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

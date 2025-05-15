@@ -1,8 +1,7 @@
 package co.edu.unbosque.PayrollAPI.service.interfaces;
 
-import co.edu.unbosque.PayrollAPI.dto.complex.NovedadTipoNovedadDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
-import co.edu.unbosque.PayrollAPI.projection.NovedadTipoNovedadProjection;
+import co.edu.unbosque.PayrollAPI.model.dto.complex.NovedadTipoNovedadDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

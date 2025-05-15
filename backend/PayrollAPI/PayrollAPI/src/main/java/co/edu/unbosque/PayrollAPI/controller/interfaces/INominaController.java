@@ -1,12 +1,11 @@
 package co.edu.unbosque.PayrollAPI.controller.interfaces;
 
+import co.edu.unbosque.PayrollAPI.model.entity.DesprendibleView;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RequestMapping("/nomina")
 public interface INominaController {
@@ -30,6 +29,25 @@ public interface INominaController {
     String spLiquidarNomina(@RequestParam("pdIdPeriodo") Integer pnIdPeriodo,
                             Model model);
 
+    @GetMapping("{idNomina}/desprendible")
+    List<DesprendibleView> getByNomina(@PathVariable Long idNomina);
+
+    @GetMapping("/vista-desprendible")
+    String vistaDesprendible(@RequestParam("idEmpleado") Long idEmpleado,
+                                    @RequestParam("idPeriodo") Long idPeriodo,
+                                    Model model);
+
+    @GetMapping("/empleado/{idEmpleado}/periodo/{idPeriodo}/desprendible")
+     List<DesprendibleView> getByEmpleadoAndPeriodo(
+            @PathVariable Long idEmpleado,
+            @PathVariable Long idPeriodo
+    );
+
+    @GetMapping("/resumen")
+    String mostrarResumen(
+            @RequestParam("periodo") String periodo,
+            Model model
+    );
 
 
 }

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Desprendible de Nómina</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: #333;
+            background-color: #F0F4F8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background-color: #2F4F4F;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        .section {
+            padding: 20px;
+        }
+        .info-table, .summary-table, .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table td, .summary-table td {
+            padding: 8px;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            color: #2F4F4F;
+            border-bottom: 2px solid #4B9CD3;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .data-table th, .data-table td {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: right;
+        }
+        .data-table th.left, .data-table td.left {
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #F0F4F8;
+            font-weight: 600;
+        }
+        .data-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 10px;
+            background-color: #f7f7f7;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Empresa GreddyGang</h1>
+        <p>Desprendible de Nómina</p>
+    </header>
+
+    <div class="section">
+        <table class="info-table">
+            <tr>
+                <td><strong>Empleado:</strong> <span th:text="${desprendible[0].nombreEmpleado}"></span></td>
+                <td><strong>Cargo:</strong> <span th:text="${desprendible[0].cargo}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Departamento:</strong> <span th:text="${desprendible[0].departamento}"></span></td>
+                <td><strong>Periodo:</strong> <span th:text="${desprendible[0].fechaInicio}"></span> a <span th:text="${desprendible[0].fechaFin}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Días trabajados:</strong> <span th:text="${desprendible[0].diasTrabajados} + ' días'"></span></td>
+                <td><strong>Fecha Liquidada:</strong> <span th:text="${desprendible[0].fechaLiquidacion}"></span></td>
+            </tr>
+        </table>
+
+        <div class="section-title"><strong>Devengados</strong></div>
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th class="left">Concepto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+                <th>Valor Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${desprendible}" th:if="${item.tipoConcepto == 'DEVENGADO'}">
+                <td class="left" th:text="${item.concepto}"></td>
+                <td th:text="${item.cantidad} ?: '-'"></td>
+                <td th:text="${item.valorUnitario != null} ? 'COP $' + ${#numbers.formatDecimal(item.valorUnitario, 0, 'COMMA', 2, 'POINT')} : '-'"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.valorTotal, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="section-title"><strong>Deducciones</strong></div>
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th class="left">Concepto</th>
+                <th>Valor Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${desprendible}" th:if="${item.tipoConcepto == 'DEDUCCION'}">
+                <td class="left" th:text="${item.concepto}"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.valorTotal, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="summary-table">
+            <tr>
+                <td><strong>Total Devengado</strong></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(desprendible[0].totalDevengado, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            <tr>
+                <td><strong>Total Deducción</strong></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(desprendible[0].totalDeduccion, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            <tr>
+                <td><strong>Total a Pagar</strong></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(desprendible[0].totalAPagar, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <footer>
+        <p>Este desprendible es confidencial y de uso exclusivo del empleado.</p>
+    </footer>
+</div>
+</body>
+</html>

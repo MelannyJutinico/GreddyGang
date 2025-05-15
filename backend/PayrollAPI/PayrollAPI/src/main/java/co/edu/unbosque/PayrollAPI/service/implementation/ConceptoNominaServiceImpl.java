@@ -1,6 +1,6 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.ConceptoNominaDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.ConceptoNominaDTO;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.IConceptoNominaRepository;
 import co.edu.unbosque.PayrollAPI.service.interfaces.IConceptoNominaService;

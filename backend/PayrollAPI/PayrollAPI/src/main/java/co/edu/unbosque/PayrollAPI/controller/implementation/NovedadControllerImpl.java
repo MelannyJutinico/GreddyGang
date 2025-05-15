@@ -1,7 +1,7 @@
 package co.edu.unbosque.PayrollAPI.controller.implementation;
 
 import co.edu.unbosque.PayrollAPI.controller.interfaces.INovedadController;
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
 import co.edu.unbosque.PayrollAPI.service.interfaces.INovedadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

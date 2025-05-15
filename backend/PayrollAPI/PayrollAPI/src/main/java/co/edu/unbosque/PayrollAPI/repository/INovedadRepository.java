@@ -1,7 +1,7 @@
 package co.edu.unbosque.PayrollAPI.repository;
 
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
-import co.edu.unbosque.PayrollAPI.entity.Novedad;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.entity.Novedad;
 import co.edu.unbosque.PayrollAPI.projection.NovedadTipoNovedadProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
