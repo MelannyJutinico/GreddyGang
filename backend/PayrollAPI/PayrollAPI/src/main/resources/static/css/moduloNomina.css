@@ -185,3 +185,24 @@ textarea {
     background-color: #005f99;
     transform: translateY(-1px);
 }
+
+.alert-success {
+    background-color: #d4edda;
+    border-left: 6px solid #28a745;
+    color: #155724;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-left: 6px solid #dc3545;
+    color: #721c24;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+

@@ -12,8 +12,4 @@ public interface IDetalleNominaService {
 
     MensajeDTO spGenerarPrimaServicios(Integer pnIdPeriodo);
 
-    MensajeDTO spCrearNomina(Integer pnIdNomina, Integer pnIdConcepto, BigDecimal pnValorTotal);
-
-    MensajeDTO spAgregarHorasExtras(Integer pnIdNomina, Integer pdIdEmpleado, Integer pnIdConcepto, BigDecimal vnCantidadHoras);
-
 }

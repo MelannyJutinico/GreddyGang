@@ -13,6 +13,15 @@
         <span th:text="'Descripción: ' + ${periodo.descripcion}"></span>
     </div>
 
+    <!-- MENSAJES DE ALERTA -->
+    <div th:if="${mensaje}" class="alert-success">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${error}" class="alert-error">
+        <p th:text="${error}"></p>
+    </div>
+
+
     <div class="modulo-nomina-grid">
 
         <!-- BLOQUE EMPLEADOS -->
@@ -85,22 +94,27 @@
         <!-- BLOQUE CONCEPTOS -->
         <div class="bloque-detalle">
             <h3>Conceptos de Nómina</h3>
-            <label for="tipoConcepto">Tipo de Concepto:</label>
-            <select id="tipoConcepto" name="tipoConcepto" required>
-                <option value="">Seleccione</option>
-                <option th:each="tc : ${tipoConceptos}" th:value="${tc.idTipoConcepto}" th:text="${tc.nombre}"></option>
-            </select>
+            <form th:action="@{/concepto/crear}" method="post">
+                <input type="hidden" name="idPeriodo" th:value="${periodo.idPeriodo}" />
+                <input type="hidden" name="idEmpleado" th:value="${idEmpleadoSeleccionado}" required>
 
-            <label for="concepto">Concepto:</label>
-            <select id="concepto" name="concepto" required>
-                <option value="">Seleccione</option>
-                <option th:each="c : ${conceptosDevengadosDeduccion}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
-            </select>
+                <label for="tipoConcepto">Tipo de Concepto:</label>
+                <select id="tipoConcepto" name="idTipoConcepto" required>
+                    <option value="">Seleccione</option>
+                    <option th:each="tc : ${tipoConceptos}" th:value="${tc.idTipoConcepto}" th:text="${tc.nombre}"></option>
+                </select>
 
-            <label for="valorConcepto">Valor a cobrar/pagar:</label>
-            <input type="text" id="valorConcepto" name="valorConcepto" placeholder="Ej: 1000000">
+                <label for="concepto">Concepto:</label>
+                <select id="concepto" name="idConcepto" required>
+                    <option value="">Seleccione</option>
+                    <option th:each="c : ${conceptosDevengadosDeduccion}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
+                </select>
 
-            <button class="btn-guardar-concepto">Guardar Cambios</button>
+                <label for="valorConcepto">Valor a cobrar/pagar:</label>
+                <input type="text" id="valorConcepto" name="valor" placeholder="Ej: 1000000">
+
+                <button type="submit" class="btn-guardar-concepto">Guardar Cambios</button>
+            </form>
 
             <div th:if="${not #lists.isEmpty(resumenConceptos)}">
                 <h4>Resumen de Concepto</h4>
@@ -123,17 +137,21 @@
         <!-- BLOQUE HORAS EXTRA -->
         <div class="bloque-horas">
             <h3>Horas Extra</h3>
+            <form th:action="@{/horaextra/crear}" method="post">
+                <input type="hidden" name="idPeriodo" th:value="${periodo.idPeriodo}" />
+                <input type="hidden" name="idEmpleado" th:value="${idEmpleadoSeleccionado}" required>
 
-            <label for="conceptoHora">Concepto:</label>
-            <select id="conceptoHora" name="conceptoHora" required>
-                <option value="">Seleccione</option>
-                <option th:each="c : ${conceptosHorasExtra}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
-            </select>
+                <label for="conceptoHora">Concepto:</label>
+                <select id="conceptoHora" name="idConceptoHora" required>
+                    <option value="">Seleccione</option>
+                    <option th:each="c : ${conceptosHorasExtra}" th:value="${c.idConcepto}" th:text="${c.nombre}"></option>
+                </select>
 
-            <label for="cantidadHoras">Cantidad de Horas:</label>
-            <input type="number" id="cantidadHoras" name="cantidadHoras" min="0">
+                <label for="cantidadHoras">Cantidad de Horas:</label>
+                <input type="number" id="cantidadHoras" name="cantidadHoras" min="0">
 
-            <button class="btn-guardar-horaextra">Guardar Cambios</button>
+                <button type="submit" class="btn-guardar-horaextra">Guardar Cambios</button>
+            </form>
 
             <div th:if="${not #lists.isEmpty(resumenHorasExtra)}">
                 <h4>Resumen de Hora Extra</h4>
@@ -154,19 +172,46 @@
                 </table>
             </div>
         </div>
-
-    </div> <!-- cierre del grid -->
+    </div>
 
     <!-- BOTONES DE ACCIÓN ABAJO -->
     <div class="acciones-nomina-bajo">
         <button>Pagar cesantías</button>
-        <button>Liquidar período</button>
         <button>Pagar prima</button>
+        <form id="formGenerarNominaMasiva" th:action="@{/nomina/generar-nomina-masiva}" method="post">
+            <input type="hidden" name="pdIdPeriodo" th:value="${periodo.idPeriodo}" />
+            <button type="button" onclick="confirmarGeneracion()">Generar Nómina Masiva</button>
+        </form>
+        <button>Liquidar período</button>
     </div>
 
 </main>
 
 <script th:src="@{/js/moduloNomina.js}"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+    function confirmarGeneracion() {
+        Swal.fire({
+            title: '¿Generar nómina masiva?',
+            text: "Esta acción generará la nómina para todos los empleados activos en este período.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#007acc',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, generar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("formGenerarNominaMasiva").submit();
+            }
+        });
+    }
+</script>
+
+
 
 </body>
 </html>
