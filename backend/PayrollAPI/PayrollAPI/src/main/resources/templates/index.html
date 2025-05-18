@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/main.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    </th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<section>
+    <div class="main-container">
+        <div class="bienvenida">
+            <h1>Bienvenido a GreddyGang Nómina</h1>
+            <p>Selecciona una opción del menú para comenzar.</p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

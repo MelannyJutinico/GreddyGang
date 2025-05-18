@@ -1,0 +1,19 @@
+<!-- templates/layout.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title} ?: 'Gestión de Nómina'">Gestión de Nómina</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <th:block th:replace="${styles}"></th:block>
+</head>
+<body>
+<div class="layout-container">
+
+    <main class="contenido-pagina" th:fragment="contenido(contenido)">
+        <div th:replace="${contenido}"></div>
+    </main>
+</div>
+</body>
+
+</html>

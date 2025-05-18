@@ -1,112 +1,62 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Resumen de Nómina</title>
-    <link rel="stylesheet" th:href="@{/css/moduloNomina.css}"/>
-    <style>
-        .tarjeta-nomina {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(0, 123, 204, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .tarjeta-nomina-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            color: #007acc;
-            margin-bottom: 10px;
-        }
-
-        .tarjeta-nomina-body {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            font-size: 14px;
-        }
-
-        .tarjeta-nomina-body div {
-            margin-bottom: 5px;
-        }
-
-        .tarjeta-nomina-actions {
-            margin-top: 15px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-ver,
-        .btn-pdf {
-            background-color: #007acc;
-            color: white;
-            padding: 8px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-ver:hover {
-            background-color: #005f99;
-        }
-
-        .btn-pdf {
-            background-color: #28a745;
-        }
-
-        .btn-pdf:hover {
-            background-color: #218838;
-        }
-    </style>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+        <link rel="stylesheet" th:href="@{/css/moduloNomina.css}"/>
+    </th:block>
 </head>
 <body>
-<div class="container-nomina">
-    <div class="encabezado-nomina encabezado-resumen-nomina">
-        <div>Resumen de Nómina</div>
-        <div th:text="'Periodo: ' + ${resumen[0].descripcionPeriodo}"></div>
-    </div>
-    <div class="buscador-nomina">
-        <input type="text" id="filtroEmpleado" placeholder="Buscar por nombre del empleado...">
-    </div>
-<br/>
-    <div th:each="item : ${resumen}" class="tarjeta-nomina">
-        <div class="tarjeta-nomina-header" th:text="${item.nombreEmpleado}"></div>
-        <div class="tarjeta-nomina-body">
-            <div><strong>Total Devengado:</strong>
-                <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalDevengado, 0, 'COMMA', 2, 'POINT')}"></span>
-            </div>
-            <div><strong>Total Deducción:</strong>
-                <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalDeduccion, 0, 'COMMA', 2, 'POINT')}"></span>
-            </div>
-            <div><strong>Total a Pagar:</strong>
-                <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalAPagar, 0, 'COMMA', 2, 'POINT')}"></span>
-            </div>
-            <div><strong>Fecha Liquidación:</strong> <span th:text="${item.fechaLiquidacion}"></span></div>
-            <div><strong>Estado:</strong> <span th:text="${item.estado}"></span></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"
+     th:if="${#httpServletRequest.session.getAttribute('periodoId') != null}"></div>
+<main class="contenido-pagina">
+    <div class="container-nomina">
+        <div class="encabezado-nomina encabezado-resumen-nomina">
+            <div>Resumen de Nómina</div>
+            <div th:text="'Periodo: ' + ${resumen[0].descripcionPeriodo}"></div>
         </div>
-        <div class="tarjeta-nomina-actions">
-            <a th:href="'/nomina/vista-desprendible?idEmpleado=' + ${item.idEmpleado} + '&idPeriodo=' + ${item.periodo}" class="btn-ver" target="_blank">Ver Detalle</a>
-            <a th:href="'/nomina/pdf?idEmpleado=' + ${item.idEmpleado} + '&idPeriodo=' + ${item.periodo}" class="btn-pdf" target="_blank">Descargar PDF</a>
+        <div class="buscador-nomina">
+            <input type="text" id="filtroEmpleado" placeholder="Buscar por nombre del empleado...">
+        </div>
+    <br/>
+        <div th:each="item : ${resumen}" class="tarjeta-nomina">
+            <div class="tarjeta-nomina-header" th:text="${item.nombreEmpleado}"></div>
+            <div class="tarjeta-nomina-body">
+                <div><strong>Total Devengado:</strong>
+                    <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalDevengado, 0, 'COMMA', 2, 'POINT')}"></span>
+                </div>
+                <div><strong>Total Deducción:</strong>
+                    <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalDeduccion, 0, 'COMMA', 2, 'POINT')}"></span>
+                </div>
+                <div><strong>Total a Pagar:</strong>
+                    <span th:text="'COP $' + ${#numbers.formatDecimal(item.totalAPagar, 0, 'COMMA', 2, 'POINT')}"></span>
+                </div>
+                <div><strong>Fecha Liquidación:</strong> <span th:text="${item.fechaLiquidacion}"></span></div>
+                <div><strong>Estado:</strong> <span th:text="${item.estado}"></span></div>
+            </div>
+            <div class="tarjeta-nomina-actions">
+                <a th:href="'/nomina/vista-desprendible?idEmpleado=' + ${item.idEmpleado} + '&idPeriodo=' + ${item.periodo}" class="btn-ver" target="_blank">Ver Detalle</a>
+                <a th:href="'/nomina/pdf?idEmpleado=' + ${item.idEmpleado} + '&idPeriodo=' + ${item.periodo}" class="btn-pdf" target="_blank">Descargar PDF</a>
+            </div>
         </div>
     </div>
-</div>
-<script>
-    document.getElementById("filtroEmpleado").addEventListener("input", function () {
-        const filtro = this.value.toLowerCase();
-        const tarjetas = document.querySelectorAll(".tarjeta-nomina");
+    <script>
+        document.getElementById("filtroEmpleado").addEventListener("input", function () {
+            const filtro = this.value.toLowerCase();
+            const tarjetas = document.querySelectorAll(".tarjeta-nomina");
 
-        tarjetas.forEach(t => {
-            const nombre = t.querySelector(".tarjeta-nomina-header").textContent.toLowerCase();
-            t.style.display = nombre.includes(filtro) ? "" : "none";
+            tarjetas.forEach(t => {
+                const nombre = t.querySelector(".tarjeta-nomina-header").textContent.toLowerCase();
+                t.style.display = nombre.includes(filtro) ? "" : "none";
+            });
         });
-    });
-</script>
+    </script>
+</main>
+
 
 </body>
-</html>
+

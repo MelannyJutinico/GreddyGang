@@ -14,4 +14,12 @@ public interface IAportePatronalViewRepository extends CrudRepository<AportePatr
     @Query(value = "SELECT * FROM vw_aportes_patronales_periodo WHERE id_periodo = :idPeriodo AND id_empleado = :idEmpleado", nativeQuery = true)
     List<AportePatronalPeriodoView> findAportesByPeriodoAndEmpleado(@Param("idPeriodo") Integer idPeriodo, @Param("idEmpleado") Integer idEmpleado);
 
+    @Query(value = """
+        SELECT 
+          *
+        FROM vw_aportes_patronales_periodo ap
+        WHERE ap.id_periodo = :idPeriodo
+        ORDER BY ap.nombre_empleado, ap.tipo_aporte
+        """, nativeQuery = true)
+    List<Object[]> findAportesByPeriodo(@Param("idPeriodo") Integer idPeriodo);
 }

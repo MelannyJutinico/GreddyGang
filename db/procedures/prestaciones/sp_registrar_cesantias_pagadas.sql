@@ -1,5 +1,5 @@
 CREATE OR ALTER PROCEDURE sp_registrar_cesantias_pagadas
-    @pn_id_periodo INT
+@pn_id_periodo INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -11,6 +11,24 @@ BEGIN
     DECLARE @vn_valor_cesantias DECIMAL(18,2);
     DECLARE @vn_salario_integral DECIMAL(18,2);
 
+    -- Validar que el mes sea diciembre
+    IF MONTH((SELECT fecha_fin FROM periodo_nomina WHERE id_periodo = @pn_id_periodo)) <> 12
+        BEGIN
+            RAISERROR('Las cesantías solo se pueden registrar en diciembre.', 16, 1);
+            RETURN;
+        END
+
+    -- Validar que no existan cesantías ya registradas
+    IF EXISTS (
+        SELECT 1
+        FROM cesantias_pagadas
+        WHERE id_periodo = @pn_id_periodo
+    )
+        BEGIN
+            RAISERROR('Ya se han registrado cesantías para este período.', 16, 1);
+            RETURN;
+        END
+
     -- Obtener el salario definido como integral
     SELECT @vn_salario_integral = valor_numerico
     FROM parametro_nomina
@@ -18,11 +36,11 @@ BEGIN
 
     -- Cursor para empleados con nómina en el periodo
     DECLARE cursor_empleados CURSOR FOR
-        SELECT 
+        SELECT
             n.id_empleado,
             e.id_tipo_contrato
         FROM nomina n
-        INNER JOIN empleado e ON n.id_empleado = e.id_empleado
+                 INNER JOIN empleado e ON n.id_empleado = e.id_empleado
         WHERE n.id_periodo = @pn_id_periodo
           AND n.estado IN ('GENERADA', 'EN_PROCESO', 'LIQUIDADA')
           AND e.activo = 1;
@@ -31,39 +49,35 @@ BEGIN
     FETCH NEXT FROM cursor_empleados INTO @pn_id_empleado, @vn_id_tipo_contrato;
 
     WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- No aplica para prestación de servicios
-        IF @vn_id_tipo_contrato <> 4
         BEGIN
-            -- Obtener salario y días trabajados reales
-            SELECT @vn_salario_mes = dbo.fn_salario_mensual_empleado(@pn_id_periodo, @pn_id_empleado);
-            SELECT @vn_dias_trabajados = dbo.fn_dias_trabajados(@pn_id_periodo, @pn_id_empleado);
+            IF @vn_id_tipo_contrato <> 4
+                BEGIN
+                    SELECT @vn_salario_mes = dbo.fn_salario_mensual_empleado(@pn_id_periodo, @pn_id_empleado);
+                    SELECT @vn_dias_trabajados = dbo.fn_dias_trabajados(@pn_id_periodo, @pn_id_empleado);
 
-            -- Solo aplicar si no es salario integral
-            IF @vn_salario_mes < @vn_salario_integral
-            BEGIN
-                SET @vn_valor_cesantias = ROUND((@vn_salario_mes * @vn_dias_trabajados) / 360.0, 2);
+                    IF @vn_salario_mes < @vn_salario_integral
+                        BEGIN
+                            SET @vn_valor_cesantias = ROUND((@vn_salario_mes * @vn_dias_trabajados) / 360.0, 2);
 
-                -- Registrar el valor en cesantías pagadas
-                INSERT INTO cesantias_pagadas (
-                    id_empleado,
-                    id_periodo,
-                    salario_base,
-                    dias_trabajados,
-                    valor_cesantias
-                )
-                VALUES (
-                    @pn_id_empleado,
-                    @pn_id_periodo,
-                    @vn_salario_mes,
-                    @vn_dias_trabajados,
-                    @vn_valor_cesantias
-                );
-            END
+                            INSERT INTO cesantias_pagadas (
+                                id_empleado,
+                                id_periodo,
+                                salario_base,
+                                dias_trabajados,
+                                valor_cesantias
+                            )
+                            VALUES (
+                                       @pn_id_empleado,
+                                       @pn_id_periodo,
+                                       @vn_salario_mes,
+                                       @vn_dias_trabajados,
+                                       @vn_valor_cesantias
+                                   );
+                        END
+                END
+
+            FETCH NEXT FROM cursor_empleados INTO @pn_id_empleado, @vn_id_tipo_contrato;
         END
-
-        FETCH NEXT FROM cursor_empleados INTO @pn_id_empleado, @vn_id_tipo_contrato;
-    END
 
     CLOSE cursor_empleados;
     DEALLOCATE cursor_empleados;

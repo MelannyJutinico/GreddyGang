@@ -47,7 +47,7 @@ BEGIN
         WHERE id_periodo = @pn_id_periodo
     )
     BEGIN
-        RAISERROR('Ya existen registros de nómina generados para este periodo.', 16, 1);
+        SELECT 'INFO' AS estado, 'Ya existen registros de nómina generados para este periodo.' AS mensaje;
         RETURN;
     END
 

@@ -44,25 +44,12 @@ public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
                     .map(mensaje, MensajeDTO.class);
         }
         catch(DataAccessException e){
-            return new MensajeDTO("NOT OK", "Error al crear periodo");
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
 
     }
 
-    @Override
-    public MensajeDTO spCambiarEstadoPeriodo(Integer pnIdPeriodo, String vvNuevoEstado) {
-
-        try{
-            Mensaje mensaje = repo
-                    .spCambiarEstadoPeriodo(pnIdPeriodo, vvNuevoEstado);
-
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al cambiar el estado del periodo");
-        }
-    }
 
     @Override
     public PeriodoNominaDTO spBuscarPeriodoPorId(Integer pnIdPeriodo) {
@@ -80,17 +67,34 @@ public class PeriodoNominaServiceImpl implements IPeriodoNominaService {
     }
 
     @Override
-    public List<PeriodoNominaDTO> vwPeriodoNomina() {
+    public List<PeriodoNominaDTO> vwPeriodoNominaActivo() {
         try{
             return repo
-                    .vwPeriodoNomina()
+                    .vwPeriodoNominaActivo()
                     .stream()
                     .map((periodoNomina) -> modelMapper.map(periodoNomina, PeriodoNominaDTO.class))
                     .collect(Collectors.toList());
         }
         catch(DataAccessException e){
-            throw new DataBaseException("Error al listar los periodos disponibles");
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
     }
+
+    @Override
+    public List<PeriodoNominaDTO> vwPeriodosNominaCerrados() {
+        try{
+            return repo
+                    .vwPeriodosNominaCerrados()
+                    .stream()
+                    .map((periodoNomina) -> modelMapper.map(periodoNomina, PeriodoNominaDTO.class))
+                    .collect(Collectors.toList());
+        }
+        catch(DataAccessException e){
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
+        }
+    }
+
 
 }

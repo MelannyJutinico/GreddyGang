@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Prestaciones</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/moduloPrestaciones.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    </th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="contenedor-prestaciones">
+
+    <h2>Módulo de Prestaciones Sociales</h2>
+
+    <!-- MENSAJES -->
+    <div th:if="${mensaje != null and !mensaje.isEmpty()}"
+         class="alerta"
+         th:classappend="${estado == 'OK'} ? ' exito' : ' error'">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+
+    <form th:action="@{/prestaciones/generar}" method="post" class="formulario-prestaciones">
+        <label for="idPeriodo">Seleccione un período activo:</label>
+        <select name="idPeriodo" id="idPeriodo" required>
+            <option value="">-- Seleccione --</option>
+            <option th:each="p : ${periodos}" th:value="${p.idPeriodo}" th:text="${p.descripcion}"></option>
+        </select>
+
+        <div class="botones-prestaciones">
+            <button type="submit" name="accion" value="cesantias">Generar Cesantías</button>
+            <button type="submit" name="accion" value="prima">Generar Prima</button>
+            <button type="submit" name="accion" value="intereses">Generar Intereses</button>
+        </div>
+    </form>
+
+    <!-- Selección de Período -->
+    <form method="get" th:action="@{/prestaciones}">
+        <label for="periodo">Seleccione un período:</label>
+        <select name="idPeriodo" id="periodo" required>
+            <option th:each="p : ${periodos}" th:value="${p.idPeriodo}" th:text="${p.descripcion}"
+                    th:selected="${idPeriodoSeleccionado == p.idPeriodo}"></option>
+        </select>
+        <button type="submit">Ver Registros</button>
+    </form>
+
+    <!-- Tablas de registros -->
+    <section th:if="${idPeriodoSeleccionado != null}">
+        <!-- Primas -->
+        <div>
+            <h3>Primas Generadas</h3>
+            <table>
+                <thead>
+                <tr><th>Empleado</th><th>Valor Prima</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${primas}">
+                    <td th:text="${p.nombreEmpleado}"></td>
+                    <td th:text="${p.valorPrima}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Intereses -->
+        <div>
+            <h3>Intereses sobre Cesantías</h3>
+            <table>
+                <thead>
+                <tr><th>Empleado</th><th>Valor Interés</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="i : ${intereses}">
+                    <td th:text="${i.nombreEmpleado}"></td>
+                    <td th:text="${i.valorInteres}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cesantías pagadas -->
+        <div>
+            <h3>Cesantías Pagadas</h3>
+            <table>
+                <thead>
+                <tr><th>Empleado</th><th>Salario Base</th><th>Días Trabajados</th><th>Valor Cesantía</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${cesantias}">
+                    <td th:text="${c.nombreEmpleado}"></td>
+                    <td th:text="${c.salarioBase}"></td>
+                    <td th:text="${c.diasTrabajados}"></td>
+                    <td th:text="${c.valorCesantia}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

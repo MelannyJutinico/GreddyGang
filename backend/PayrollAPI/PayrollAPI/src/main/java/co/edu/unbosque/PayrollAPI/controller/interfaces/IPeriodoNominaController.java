@@ -1,10 +1,7 @@
 package co.edu.unbosque.PayrollAPI.controller.interfaces;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -24,8 +21,11 @@ public interface IPeriodoNominaController {
                                   @RequestParam("vvNuevoEstado") String vvNuevoEstado,
                                   Model model);
 
-    @GetMapping("/listar")
+    @GetMapping("/activo")
     String mostrarPeriodosActivos(Model model);
 
+    @GetMapping("/cerrados")
+    public String listarPeriodosCerrados(Model model, @ModelAttribute("mensaje") String mensaje, @ModelAttribute("error") String error
+    );
 
 }

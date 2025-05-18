@@ -86,5 +86,5 @@ BEGIN
     );
 
     
-    SELECT 'OK' AS estado, 'Horas extra agregadas exitosamente.'  AS mensaje;
+    RETURN;
 END

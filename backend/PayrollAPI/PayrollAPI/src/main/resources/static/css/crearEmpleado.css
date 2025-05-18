@@ -79,3 +79,26 @@ body {
     font-weight: bold;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+
+.acciones-empleado {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+
+}
+
+.btn-volver-lista {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-volver-lista:hover {
+    background-color: #5a6268;
+}
+

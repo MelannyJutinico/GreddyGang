@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Empleado</title>
-    <link rel="stylesheet" th:href="@{/css/crearEmpleado.css}">
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/crearEmpleado.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    </th:block>
 </head>
 <body>
-
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container-empleado">
     <h1 class="titulo-empleado">Registro de Nuevo Empleado</h1>
+
 
     <form th:action="@{/empleados/crear}" method="post" th:object="${empleado}" class="formulario-empleado">
         <div class="form-empleado">
@@ -52,6 +56,9 @@
 
         <div class="form-empleado">
             <button type="submit" class="btn-registrar-empleado">Crear Empleado</button>
+        </div>
+        <div class="acciones-empleado">
+            <a th:href="@{/empleados/lista}" class="btn-volver-lista">← Volver a la lista</a>
         </div>
     </form>
 </div>

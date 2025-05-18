@@ -19,7 +19,7 @@ public interface INovedadRepository extends CrudRepository<Novedad, Integer> {
             value = "EXEC sp_agregar_novedad :pn_id_empleado, :pn_id_tipo_novedad, :pd_fecha_inicio, :pd_fecha_fin, :pn_porcentaje_pago, :vv_observacion",
             nativeQuery = true
     )
-    Mensaje spAgregarNovedad(
+    List<Mensaje> spAgregarNovedad(
             @Param("pn_id_empleado") Integer idEmpleado,
             @Param("pn_id_tipo_novedad") Integer idTipoNovedad,
             @Param("pd_fecha_inicio") LocalDate fechaInicio,
@@ -29,20 +29,21 @@ public interface INovedadRepository extends CrudRepository<Novedad, Integer> {
     );
 
 
+
     @Query(
-            value = "EXEC sp_aplicar_novedades :pn_id_periodo",
+            value = "EXEC sp_listar_novedades_periodo :pn_id_empleado, :pn_id_periodo ",
             nativeQuery = true
     )
-    Mensaje spAplicarNovedades(
-            @Param("pn_id_periodo") Integer idPeriodo
+    List<NovedadTipoNovedadProjection> spListarNovedadesDelPeriodo(
+            @Param("pn_id_empleado") Integer pnIdEmpleado,   @Param("pn_id_periodo") Integer pnIdPeriodo
     );
 
     @Query(
-            value = "EXEC sp_listar_novedades_ultimos_dos_meses :pn_id_empleado ",
+            value = "EXEC sp_eliminar_novedad :idNovedad",
             nativeQuery = true
     )
-    List<NovedadTipoNovedadProjection> spListarNovedadesUltimosDosMeses(
-            @Param("pn_id_empleado") Integer pnIdEmpleado
+    Mensaje spEliminarNovedad(
+            @Param("idNovedad") Integer idNovedad
     );
 
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class NovedadTipoNovedadDTO {
 
+    private Integer idNovedad;
     private String tipoNovedad;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -13,11 +14,20 @@ public class NovedadTipoNovedadDTO {
     public NovedadTipoNovedadDTO() {
     }
 
-    public NovedadTipoNovedadDTO(String tipoNovedad, LocalDate fechaInicio, LocalDate fechaFin, String observacion) {
+    public NovedadTipoNovedadDTO(Integer idNovedad,String tipoNovedad, LocalDate fechaInicio, LocalDate fechaFin, String observacion) {
+        this.idNovedad = idNovedad;
         this.tipoNovedad = tipoNovedad;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.observacion = observacion;
+    }
+
+    public Integer getIdNovedad() {
+        return idNovedad;
+    }
+
+    public void setIdNovedad(Integer idNovedad) {
+        this.idNovedad = idNovedad;
     }
 
     public String getTipoNovedad() {

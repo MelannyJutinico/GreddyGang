@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Provisiones de Prestaciones</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+        <link rel="stylesheet" th:href="@{/css/moduloAportes.css}">
+    </th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="contenido-aportes">
+    <h2>Provisiones de Prestaciones por Período</h2>
+
+    <div th:if="${#lists.isEmpty(provisiones)}" class="alerta info">
+        <p>No hay provisiones registradas para este período.</p>
+    </div>
+
+    <a th:href="@{'/contabilidad/provisiones/excel?idPeriodo=' + ${session.periodoId}}" class="btn-descargar-excel">
+        <span class="icono">&#128190;</span> Descargar Excel
+    </a>
+
+    <div th:if="${not #lists.isEmpty(provisiones)}" class="tabla-scroll">
+        <table class="tabla-aportes">
+            <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Concepto</th>
+                <th>Cantidad</th>
+                <th>Fecha Registro</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="prov : ${provisiones}">
+                <td th:text="${prov.nombreEmpleado}">Empleado</td>
+                <td th:text="${prov.conceptoProvision}">Concepto</td>
+                <td th:text="${#numbers.formatDecimal(prov.cantidad, 0, 'COMMA', 2, 'POINT')}">Cantidad</td>
+                <td th:text="${#temporals.format(prov.fechaRegistro, 'yyyy-MM-dd HH:mm')}">Fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!-- templates/fragments/navbar.html -->
+<nav class="navbar" th:fragment="navbar">
+    <div class="navbar-left">
+        <a th:href="@{/}" class="brand">GreddyGang</a>
+    </div>
+    <ul class="nav-links">
+        <li><a th:href="@{/empleados/lista}">Empleados</a></li>
+        <li><a th:href="@{/periodo-nomina/activo}">Liquidar Período</a></li>
+        <li><a th:href="@{/periodo-nomina/cerrados}">Ver Períodos</a></li>
+        <li><a th:href="@{/prestaciones}">Registrar y visualizar prestaciones</a></li>
+    </ul>
+</nav>
+

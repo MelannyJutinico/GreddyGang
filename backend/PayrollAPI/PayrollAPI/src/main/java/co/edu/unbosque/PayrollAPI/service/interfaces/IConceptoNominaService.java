@@ -14,8 +14,6 @@ public interface IConceptoNominaService {
 
     List<ConceptoNominaDTO> vwConceptosHorasExtra();
 
-    MensajeDTO spAgregarConcepto(Integer pnIdNomina, Integer pnIdConcepto, BigDecimal pnValorTotal);
-
-    MensajeDTO spAgregarHorasExtras(Integer pnIdNomina, Integer pdIdEmpleado, Integer pnIdConcepto, BigDecimal vnCantidadHoras);
+    MensajeDTO spAgregarHorasExtras(Integer idPeriodo, Integer pdIdEmpleado, Integer pnIdConcepto, BigDecimal vnCantidadHoras);
 
 }

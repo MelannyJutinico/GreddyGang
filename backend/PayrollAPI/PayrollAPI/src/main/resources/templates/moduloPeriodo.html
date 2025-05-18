@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Períodos de Nómina Activos</title>
+    <th:block th:fragment="styles">
     <link rel="stylesheet" th:href="@{/css/moduloPeriodo.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    </th:block>
 </head>
 <body>
-
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <main>
     <!-- Mensaje visual si existe -->
     <div th:if="${mensaje}" class="alerta" th:classappend="${estado == 'OK'} ? ' exito' : ' error'">
@@ -40,7 +43,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="periodo : ${periodos}" th:onclick="'window.location.href=\'/nomina/ver?periodoId=' + ${periodo.idPeriodo} + '\''" style="cursor: pointer;">
+        <tr th:each="periodo : ${periodos}" th:onclick="'window.location.href=\'/nomina/liquidar?periodoId=' + ${periodo.idPeriodo} + '\''" style="cursor: pointer;">
             <td th:text="${periodo.idPeriodo}"></td>
             <td th:text="${periodo.fechaInicio}"></td>
             <td th:text="${periodo.fechaFin}"></td>

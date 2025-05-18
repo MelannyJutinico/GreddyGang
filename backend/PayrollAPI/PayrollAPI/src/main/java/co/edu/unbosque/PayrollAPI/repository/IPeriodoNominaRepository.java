@@ -43,13 +43,16 @@ public interface IPeriodoNominaRepository extends CrudRepository<PeriodoNomina, 
 
 
     @Query(
-            value = "SELECT * FROM vw_periodo_nomina",
+            value = "SELECT * FROM vw_periodo_nomina_activo",
             nativeQuery = true
     )
-    List<PeriodoNomina> vwPeriodoNomina();
+    List<PeriodoNomina> vwPeriodoNominaActivo();
 
 
-
-
+    @Query(
+            value = "SELECT * FROM vw_periodos_nomina_cerrados",
+            nativeQuery = true
+    )
+    List<PeriodoNomina> vwPeriodosNominaCerrados();
 
 }

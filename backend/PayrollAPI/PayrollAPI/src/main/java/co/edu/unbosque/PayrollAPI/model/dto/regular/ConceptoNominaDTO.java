@@ -5,39 +5,43 @@ import java.math.BigDecimal;
 public class ConceptoNominaDTO {
 
     private Integer idConcepto;
-
     private String nombre;
-
-    private TipoConceptoDTO tipoConceptoDTO;
-
-    private Boolean registroManual;
-
-    private BigDecimal porcentaje;
-
+    private Integer idTipoConcepto; // 👈 agregar esto
+    private String tipoConcepto;    // 👈 el nombre del tipo (ej. "Deducción")
     private String descripcion;
-
+    private Boolean registroManual;
+    private BigDecimal porcentaje;
     private Boolean activo;
+
 
     public ConceptoNominaDTO() {
     }
 
-    public ConceptoNominaDTO(String nombre, TipoConceptoDTO tipoConceptoDTO, Boolean registroManual, BigDecimal porcentaje, String descripcion, Boolean activo) {
+    public ConceptoNominaDTO(Integer idConcepto, String nombre, Integer idTipoConcepto, String tipoConcepto, String descripcion, Boolean registroManual, BigDecimal porcentaje, Boolean activo) {
+        this.idConcepto = idConcepto;
         this.nombre = nombre;
-        this.tipoConceptoDTO = tipoConceptoDTO;
+        this.idTipoConcepto = idTipoConcepto;
+        this.tipoConcepto = tipoConcepto;
+        this.descripcion = descripcion;
         this.registroManual = registroManual;
         this.porcentaje = porcentaje;
-        this.descripcion = descripcion;
         this.activo = activo;
     }
 
-    public ConceptoNominaDTO(Integer idConcepto, String nombre, TipoConceptoDTO tipoConceptoDTO, Boolean registroManual, BigDecimal porcentaje, String descripcion, Boolean activo) {
-        this.idConcepto = idConcepto;
-        this.nombre = nombre;
-        this.tipoConceptoDTO = tipoConceptoDTO;
-        this.registroManual = registroManual;
-        this.porcentaje = porcentaje;
-        this.descripcion = descripcion;
-        this.activo = activo;
+    public Integer getIdTipoConcepto() {
+        return idTipoConcepto;
+    }
+
+    public void setIdTipoConcepto(Integer idTipoConcepto) {
+        this.idTipoConcepto = idTipoConcepto;
+    }
+
+    public String getTipoConcepto() {
+        return tipoConcepto;
+    }
+
+    public void setTipoConcepto(String tipoConcepto) {
+        this.tipoConcepto = tipoConcepto;
     }
 
     public Integer getIdConcepto() {
@@ -56,13 +60,6 @@ public class ConceptoNominaDTO {
         this.nombre = nombre;
     }
 
-    public TipoConceptoDTO getTipoConceptoDTO() {
-        return tipoConceptoDTO;
-    }
-
-    public void setTipoConceptoDTO(TipoConceptoDTO tipoConceptoDTO) {
-        this.tipoConceptoDTO = tipoConceptoDTO;
-    }
 
     public Boolean getRegistroManual() {
         return registroManual;

@@ -1,14 +1,14 @@
 package co.edu.unbosque.PayrollAPI.controller.interfaces;
 
+import co.edu.unbosque.PayrollAPI.model.dto.complex.NovedadTipoNovedadDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @RequestMapping("/novedad")
 public interface INovedadController {
@@ -25,8 +25,16 @@ public interface INovedadController {
             Model model,
             RedirectAttributes redirectAttributes);
 
-    @PostMapping("/aplicar-novedades")
-    String spAplicarNovedades(@RequestParam("idPeriodo") Integer idPeriodo,
-                              Model model);
+
+    @GetMapping("/listar")
+    @ResponseBody
+    List<NovedadTipoNovedadDTO> obtenerNovedades(
+            @RequestParam("idEmpleado") Integer idEmpleado,
+            @RequestParam("idPeriodo") Integer idPeriodo);
+
+    @PostMapping("/eliminar")
+    String eliminarNovedad(@RequestParam("idNovedad") Integer idNovedad,
+                                  @RequestParam("idPeriodo") Integer idPeriodo,
+                                  RedirectAttributes redirectAttributes);
 
 }

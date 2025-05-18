@@ -15,4 +15,6 @@ public interface IProvisionesViewRepository extends CrudRepository<ProvisionPres
     @Query(value = "SELECT * FROM vw_provisiones_prestaciones_periodo WHERE id_periodo = :idPeriodo AND id_empleado = :idEmpleado", nativeQuery = true)
     List<ProvisionPrestacionPeriodoView> findProvisionesByPeriodoAndEmpleado(@Param("idPeriodo") Integer idPeriodo, @Param("idEmpleado") Integer idEmpleado);
 
+    @Query(value = "SELECT * FROM vw_provisiones_prestaciones_periodo WHERE id_periodo = :idPeriodo", nativeQuery = true)
+    List<ProvisionPrestacionPeriodoView> findProvisionesByPeriodo(@Param("idPeriodo") Integer idPeriodo);
 }

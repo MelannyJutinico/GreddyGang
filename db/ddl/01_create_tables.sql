@@ -185,3 +185,27 @@ CREATE TABLE log_intento_modificacion_nomina (
     fecha DATETIME DEFAULT GETDATE(),
     mensaje VARCHAR(255)
 );
+
+CREATE TABLE log_novedad (
+                             id_log_novedad INT IDENTITY PRIMARY KEY,
+                             id_novedad INT,
+                             id_empleado INT,
+                             id_tipo_novedad INT,
+                             fecha_inicio DATE,
+                             fecha_fin DATE,
+                             porcentaje_pago DECIMAL(5,2),
+                             observacion VARCHAR(255),
+                             accion VARCHAR(50),
+                             motivo VARCHAR(255),
+                             usuario VARCHAR(100),
+                             fecha_log DATETIME
+);
+
+CREATE TABLE log_estado_nomina (
+                                   id_log INT IDENTITY(1,1) PRIMARY KEY,
+                                   id_nomina INT NOT NULL,
+                                   estado_anterior VARCHAR(20) NOT NULL,
+                                   estado_nuevo VARCHAR(20) NOT NULL,
+                                   usuario VARCHAR(100) NOT NULL,
+                                   fecha_log DATETIME NOT NULL DEFAULT GETDATE()
+);

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="es"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Resumen Contable por Empleado</title>
-    <link rel="stylesheet" th:href="@{/css/contabilidad.css}">
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+        <link rel="stylesheet" th:href="@{/css/contabilidad.css}">
+    </th:block>
+
 </head>
 <body>
-
-<div th:if="${idPeriodo != null}" th:replace="fragments/sidebar :: barra-lateral"></div>
-
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"
+     th:if="${#httpServletRequest.session.getAttribute('periodoId') != null}"></div>
+<main class="contenido-pagina">
 <div class="container-contabilidad">
     <div class="header-contabilidad">
         <h2>Resumen Contable por Empleado</h2>
@@ -72,52 +77,52 @@
         </table>
     </div>
     <div id="detalleContable"></div>
-
-</div>
-<script>
-    function verAportes(idEmpleado, idPeriodo) {
-        fetch(`/contabilidad/detalle-aportes?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
-            .then(res => res.json())
-            .then(data => renderTablaDetalle(data, "Aportes Patronales"));
-    }
-
-    function verProvisiones(idEmpleado, idPeriodo) {
-        fetch(`/contabilidad/detalle-provisiones?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
-            .then(res => res.json())
-            .then(data => renderTablaDetalle(data, "Provisiones"));
-    }
-
-    function renderTablaDetalle(lista, titulo) {
-        if (!lista || lista.length === 0) {
-            document.getElementById('detalleContable').innerHTML = `<p>No hay datos de ${titulo}.</p>`;
-            return;
+    <script>
+        function verAportes(idEmpleado, idPeriodo) {
+            fetch(`/contabilidad/detalle-aportes?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
+                .then(res => res.json())
+                .then(data => renderTablaDetalle(data, "Aportes Patronales"));
         }
 
-        let headers = Object.keys(lista[0]);
-        let table = `<h3>${titulo}</h3><table class="tabla-detalle"><thead><tr>`;
-        headers.forEach(h => table += `<th>${h}</th>`);
-        table += `</tr></thead><tbody>`;
+        function verProvisiones(idEmpleado, idPeriodo) {
+            fetch(`/contabilidad/detalle-provisiones?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
+                .then(res => res.json())
+                .then(data => renderTablaDetalle(data, "Provisiones"));
+        }
 
-        lista.forEach(row => {
-            table += "<tr>";
-            headers.forEach(h => {
-                const valor = row[h];
+        function renderTablaDetalle(lista, titulo) {
+            if (!lista || lista.length === 0) {
+                document.getElementById('detalleContable').innerHTML = `<p>No hay datos de ${titulo}.</p>`;
+                return;
+            }
 
-                // Formatear campo 'cantidad' como COP
-                if (h.toLowerCase() === 'cantidad' && typeof valor === 'number') {
-                    table += `<td class="valor-cop">COP $${valor.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>`;
-                } else {
-                    table += `<td>${valor}</td>`;
-                }
+            let headers = Object.keys(lista[0]);
+            let table = `<h3>${titulo}</h3><table class="tabla-detalle"><thead><tr>`;
+            headers.forEach(h => table += `<th>${h}</th>`);
+            table += `</tr></thead><tbody>`;
+
+            lista.forEach(row => {
+                table += "<tr>";
+                headers.forEach(h => {
+                    const valor = row[h];
+
+                    // Formatear campo 'cantidad' como COP
+                    if (h.toLowerCase() === 'cantidad' && typeof valor === 'number') {
+                        table += `<td class="valor-cop">COP $${valor.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>`;
+                    } else {
+                        table += `<td>${valor}</td>`;
+                    }
+                });
+                table += "</tr>";
             });
-            table += "</tr>";
-        });
 
-        table += "</tbody></table>";
-        document.getElementById('detalleContable').innerHTML = table;
-    }
+            table += "</tbody></table>";
+            document.getElementById('detalleContable').innerHTML = table;
+        }
 
-</script>
+    </script>
+</div>
 
+</main>
 </body>
 </html>

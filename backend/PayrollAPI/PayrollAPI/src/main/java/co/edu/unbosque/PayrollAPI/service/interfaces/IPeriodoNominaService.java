@@ -8,11 +8,8 @@ import java.util.List;
 public interface IPeriodoNominaService {
 
     MensajeDTO spCrearPeriodo(String mesSeleccionado, String vvDescripcion);
-
-    MensajeDTO spCambiarEstadoPeriodo(Integer pnIdPeriodo, String vvNuevoEstado);
-
     PeriodoNominaDTO spBuscarPeriodoPorId(Integer pnIdPeriodo);
-
-    List<PeriodoNominaDTO> vwPeriodoNomina();
+    List<PeriodoNominaDTO> vwPeriodoNominaActivo();
+    List<PeriodoNominaDTO> vwPeriodosNominaCerrados();
 
 }

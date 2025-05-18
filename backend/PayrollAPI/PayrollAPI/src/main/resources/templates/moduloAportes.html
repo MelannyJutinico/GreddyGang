@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aportes Patronales</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+        <link rel="stylesheet" th:href="@{/css/moduloAportes.css}">
+    </th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<main class="contenido-aportes">
+
+    <h2>Aportes Patronales por Período</h2>
+
+    <a th:href="@{'/contabilidad/aportes/excel?idPeriodo=' + ${session.periodoId}}" class="btn-descargar-excel">
+        <span class="icono">&#128190;</span> Descargar Excel
+    </a>
+
+
+
+    <div th:if="${#lists.isEmpty(aportes)}" class="alerta info">
+        <p>No hay aportes registrados para este período.</p>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(aportes)}" class="tabla-scroll">
+        <table class="tabla-aportes">
+            <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Tipo Contrato</th>
+                <th>Nivel Riesgo</th>
+                <th>Salario Base</th>
+                <th>Tipo Aporte</th>
+                <th>Cantidad</th>
+                <th>Fecha Liquidación</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="aporte : ${aportes}">
+                <td th:text="${aporte.nombreEmpleado}">Empleado</td>
+                <td th:text="${aporte.tipoContrato}">Contrato</td>
+                <td th:text="${aporte.nivelRiesgo}">Riesgo</td>
+                <td th:text="${#numbers.formatDecimal(aporte.salarioBase, 0, 'COMMA', 2, 'POINT')}">Salario</td>
+                <td th:text="${aporte.tipoAporte}">Tipo</td>
+                <td th:text="${#numbers.formatDecimal(aporte.cantidad, 0, 'COMMA', 2, 'POINT')}">Cantidad</td>
+                <td th:text="${aporte.fechaLiquidacion}">Fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+</body>
+</html>

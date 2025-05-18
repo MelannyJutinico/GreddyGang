@@ -6,36 +6,35 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface INominaRepositoy extends CrudRepository<Nomina, Integer> {
 
-    @Query(
-            value = "EXEC sp_crear_nomina :pn_id_empleado, :pn_id_periodo, :pd_fecha_liquidacion",
-            nativeQuery = true
-    )
-    Mensaje spCrearNomina(
-            @Param("pn_id_empleado") Integer pnIdEmpleado,
-            @Param("pn_id_periodo") Integer pnIdPeriodo,
-            @Param("pd_fecha_liquidacion") LocalDate pdFechaLiquidacion
-    );
 
     @Query(
             value = "EXEC sp_generar_nomina_masiva :pn_id_periodo",
             nativeQuery = true
     )
-    Mensaje spGenerarNominaMasiva(
+    List<Mensaje> spGenerarNominaMasiva(
             @Param("pn_id_periodo") Integer pnIdPeriodo
     );
 
+
+    @Query(value = "EXEC sp_liquidar_periodo :pn_id_periodo", nativeQuery = true)
+    List<Object[]> spLiquidarPeriodo(@Param("pn_id_periodo") Integer idPeriodo);
+
+    @Query(value = "SELECT dbo.fn_existe_nomina_por_periodo(:periodoId)", nativeQuery = true)
+    boolean existeNominaParaPeriodo(@Param("periodoId") Integer periodoId);
+
     @Query(
-            value = "EXEC sp_liquidar_nomina :pn_id_periodo",
+            value = "SELECT id_nomina FROM fn_obtener_nomina_empleado_periodo(:idEmpleado, :idPeriodo)",
             nativeQuery = true
     )
-    Mensaje spLiquidarNomina(
-            @Param("pn_id_periodo ") Integer pnIdPeriodo
+    Integer obtenerIdNominaPorEmpleadoYPeriodo(
+            @Param("idEmpleado") Integer idEmpleado,
+            @Param("idPeriodo") Integer idPeriodo
     );
+
 
 }

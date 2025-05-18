@@ -11,9 +11,9 @@ public interface INovedadService {
 
     MensajeDTO spAgregarNovedad(Integer idEmpleado, Integer idTipoNovedad, LocalDate fechaInicio, LocalDate fechaFin, BigDecimal porcentajePago, String observacion);
 
-    MensajeDTO spAplicarNovedades(Integer idPeriodo);
+    List<NovedadTipoNovedadDTO> spListarNovedadesDelPeriodo(Integer pnIdEmpleado, Integer pnIdPeriodo);
 
-    List<NovedadTipoNovedadDTO> spListarNovedadesUltimosDosMeses(Integer pnIdEmpleado);
+    MensajeDTO spEliminarNovedad(Integer idNovedad);
 
 
 }
