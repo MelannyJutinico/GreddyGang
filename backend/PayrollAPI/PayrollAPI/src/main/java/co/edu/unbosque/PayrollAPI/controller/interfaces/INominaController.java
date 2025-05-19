@@ -39,7 +39,7 @@ public interface INominaController {
 
     @GetMapping("/resumen")
     String mostrarResumen(
-            @RequestParam("periodo") String periodo,
+            @RequestParam("periodo") Integer periodo,
             Model model, HttpSession session
     );
 

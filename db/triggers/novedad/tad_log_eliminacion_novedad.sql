@@ -1,4 +1,4 @@
-CREATE OR ALTER TRIGGER trg_log_eliminacion_novedad
+CREATE OR ALTER TRIGGER tad_log_eliminacion_novedad
 ON novedad
 AFTER DELETE
 AS

@@ -1,4 +1,4 @@
-CREATE OR ALTER TRIGGER trg_validar_eliminacion_novedad
+CREATE OR ALTER TRIGGER tid_validar_eliminacion_novedad
     ON novedad
     INSTEAD OF DELETE
     AS

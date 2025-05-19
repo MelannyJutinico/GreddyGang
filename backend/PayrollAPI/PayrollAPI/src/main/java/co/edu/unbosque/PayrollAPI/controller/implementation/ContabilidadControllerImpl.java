@@ -2,6 +2,7 @@ package co.edu.unbosque.PayrollAPI.controller.implementation;
 
 import co.edu.unbosque.PayrollAPI.controller.interfaces.IContabilidadController;
 import co.edu.unbosque.PayrollAPI.model.dto.regular.AportePatronalDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.PeriodoNominaDTO;
 import co.edu.unbosque.PayrollAPI.model.entity.AportePatronalPeriodoView;
 import co.edu.unbosque.PayrollAPI.model.entity.ContabilidadEmpleadoView;
 import co.edu.unbosque.PayrollAPI.model.entity.ContabilidadTotalesPeriodoView;
@@ -9,6 +10,7 @@ import co.edu.unbosque.PayrollAPI.model.entity.ProvisionPrestacionPeriodoView;
 import co.edu.unbosque.PayrollAPI.repository.IAportePatronalViewRepository;
 import co.edu.unbosque.PayrollAPI.repository.IProvisionesViewRepository;
 import co.edu.unbosque.PayrollAPI.service.interfaces.IContabilidadEmpleadoService;
+import co.edu.unbosque.PayrollAPI.service.interfaces.IPeriodoNominaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.Row;
@@ -28,22 +30,24 @@ public class ContabilidadControllerImpl implements IContabilidadController {
    private final IContabilidadEmpleadoService contabilidadService;
    private final IAportePatronalViewRepository aportePatronalService;
    private final IProvisionesViewRepository provisionPrestacionService;
+    private final IPeriodoNominaService periodoNominaService;
 
 
-
-    public ContabilidadControllerImpl(IContabilidadEmpleadoService contabilidadService, IAportePatronalViewRepository aportePatronalService, IProvisionesViewRepository provisionPrestacionService) {
+    public ContabilidadControllerImpl(IContabilidadEmpleadoService contabilidadService, IAportePatronalViewRepository aportePatronalService, IProvisionesViewRepository provisionPrestacionService, IPeriodoNominaService periodoNominaService) {
 
         this.contabilidadService = contabilidadService;
 
         this.aportePatronalService = aportePatronalService;
         this.provisionPrestacionService = provisionPrestacionService;
+        this.periodoNominaService = periodoNominaService;
     }
 
     @Override
     public String verContabilidad(@RequestParam("idPeriodo") Integer idPeriodo, Model model, HttpSession session)  {
-        session.setAttribute("periodoId", idPeriodo);
-        String descripcion = "";
-        session.setAttribute("periodoNombre", descripcion);
+        PeriodoNominaDTO periodo = periodoNominaService.spBuscarPeriodoPorId(idPeriodo);
+        model.addAttribute("periodo", periodo);
+        session.setAttribute("periodoId", periodo.getIdPeriodo());
+        session.setAttribute("periodoNombre", periodo.getDescripcion());
         List<ContabilidadEmpleadoView> contabilidad = contabilidadService.consultarPorPeriodo(idPeriodo);
         model.addAttribute("contabilidad", contabilidad);
         ContabilidadTotalesPeriodoView totales = contabilidadService.getTotalesByPeriodo(idPeriodo);
@@ -69,17 +73,20 @@ public class ContabilidadControllerImpl implements IContabilidadController {
 
     @Override
     public String verAportes(Integer idPeriodo, Model model,  HttpSession session) {
-        session.setAttribute("periodoId", idPeriodo);
-        String descripcion = "";
-        session.setAttribute("periodoNombre", descripcion);
+        PeriodoNominaDTO periodo = periodoNominaService.spBuscarPeriodoPorId(idPeriodo);
+        model.addAttribute("periodo", periodo);
+        session.setAttribute("periodoId", periodo.getIdPeriodo());
+        session.setAttribute("periodoNombre", periodo.getDescripcion());
         model.addAttribute("aportes", contabilidadService.obtenerAportesPorPeriodo(idPeriodo));
         return "moduloAportes";
     }
 
     @Override
     public String verProvisiones(Integer idPeriodo, Model model, HttpSession session) {
-        session.setAttribute("periodoId", idPeriodo);
-        session.setAttribute("periodoNombre", "");
+        PeriodoNominaDTO periodo = periodoNominaService.spBuscarPeriodoPorId(idPeriodo);
+        model.addAttribute("periodo", periodo);
+        session.setAttribute("periodoId", periodo.getIdPeriodo());
+        session.setAttribute("periodoNombre", periodo.getDescripcion());
         model.addAttribute("provisiones", provisionPrestacionService.findProvisionesByPeriodo(idPeriodo));
         return "moduloProvisiones";
     }

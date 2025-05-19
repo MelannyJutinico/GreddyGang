@@ -90,10 +90,12 @@ public class NominaControllerImpl implements INominaController {
     }
 
     @Override
-    public String mostrarResumen(String periodo, Model model, HttpSession session)  {
-        session.setAttribute("periodoId", periodo);
-        session.setAttribute("periodoNombre", " ");
-        List<NominaResumenView> resumen = resumenService.consultarPorPeriodo(periodo);
+    public String mostrarResumen(Integer idPeriodo, Model model, HttpSession session)  {
+        PeriodoNominaDTO periodo = periodoNominaService.spBuscarPeriodoPorId(idPeriodo);
+        model.addAttribute("periodo", periodo);
+        session.setAttribute("periodoId", periodo.getIdPeriodo());
+        session.setAttribute("periodoNombre", periodo.getDescripcion());
+        List<NominaResumenView> resumen = resumenService.consultarPorPeriodo(String.valueOf(idPeriodo));
         model.addAttribute("resumen", resumen);
         return "resumenNomina";
     }
