@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Inicio</title>
+    <meta charset="UTF-8">
+    <title>Inicio | GreddyGang Nómina</title>
     <th:block th:fragment="styles">
-        <link rel="stylesheet" th:href="@{/css/main.css}">
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </th:block>
 </head>
 <body>
@@ -12,9 +14,10 @@
 
 <section>
     <div class="main-container">
-        <div class="bienvenida">
-            <h1>Bienvenido a GreddyGang Nómina</h1>
-            <p>Selecciona una opción del menú para comenzar.</p>
+        <div class="bienvenida fade-in">
+            <i class="fas fa-briefcase fa-3x" style="color: #2a7ade; margin-bottom: 15px;"></i>
+            <h1>Bienvenido a <span class="highlight">GreddyGang Nómina</span></h1>
+            <p>Administra empleados, liquida nóminas y visualiza reportes desde el menú lateral.</p>
         </div>
     </div>
 </section>

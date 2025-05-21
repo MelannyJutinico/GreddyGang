@@ -7,7 +7,6 @@ BEGIN
 
     DECLARE @usuario VARCHAR(100) = SYSTEM_USER;
 
-    -- Procesar todas las filas eliminadas (no solo TOP 1)
     DECLARE @id_novedad INT, @id_empleado INT, @id_tipo_novedad INT;
     DECLARE @fecha_inicio DATE, @fecha_fin DATE, @porcentaje_pago DECIMAL(5,2), @observacion VARCHAR(255);
 
@@ -27,8 +26,11 @@ BEGIN
                 FROM nomina no
                          JOIN periodo_nomina p ON no.id_periodo = p.id_periodo
                 WHERE no.id_empleado = @id_empleado
-                  AND @fecha_inicio BETWEEN p.fecha_inicio AND p.fecha_fin
                   AND no.estado IN ('LIQUIDADA', 'CERRADA')
+                  AND (
+                    @fecha_inicio <= p.fecha_fin AND
+                    @fecha_fin >= p.fecha_inicio
+                    )
             )
                 BEGIN
                     INSERT INTO log_novedad (
@@ -49,7 +51,6 @@ BEGIN
                     RETURN;
                 END
 
-            -- Eliminar la novedad permitida
             DELETE FROM novedad WHERE id_novedad = @id_novedad;
 
             FETCH NEXT FROM cur INTO @id_novedad, @id_empleado, @id_tipo_novedad, @fecha_inicio, @fecha_fin, @porcentaje_pago, @observacion;

@@ -1,4 +1,4 @@
-CREATE OR ALTER TRIGGER trg_log_estado_nomina
+CREATE OR ALTER TRIGGER tau_log_estado_nomina
 ON nomina
 AFTER UPDATE
                           AS
