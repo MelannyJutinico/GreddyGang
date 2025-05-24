@@ -1,0 +1,71 @@
+body {
+    background-color: #f9fbfc;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main.contenido-pdfs {
+    padding: 30px;
+    background-color: #f8f9fc;
+}
+
+h2 {
+    color: #1a237e;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tabla-desprendibles {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.tabla-desprendibles th,
+.tabla-desprendibles td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla-desprendibles th {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    font-weight: bold;
+}
+
+.tabla-desprendibles tr:hover {
+    background-color: #f1faff;
+}
+
+.descargar-link {
+    background-color: #2a7ade;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.descargar-link i {
+    margin-right: 5px;
+}
+
+.descargar-link:hover {
+    background-color: #1e5fbf;
+}
+
+.mensaje-vacio {
+    text-align: center;
+    margin-top: 40px;
+    color: #777;
+    font-style: italic;
+}
