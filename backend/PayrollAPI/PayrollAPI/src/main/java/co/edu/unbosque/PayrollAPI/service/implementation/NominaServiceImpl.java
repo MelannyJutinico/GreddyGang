@@ -1,15 +1,16 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.INominaRepositoy;
 import co.edu.unbosque.PayrollAPI.service.interfaces.INominaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class NominaServiceImpl implements INominaService {
@@ -23,49 +24,47 @@ public class NominaServiceImpl implements INominaService {
         this.repo = repo;
     }
 
-    @Override
-    public MensajeDTO spCrearNomina(Integer pnIdEmpleado, Integer pnIdPeriodo, LocalDate pdFechaLiquidacion) {
 
-        try{
-            Mensaje mensaje = repo
-                    .spCrearNomina(pnIdEmpleado, pnIdPeriodo, pdFechaLiquidacion);
-
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al crear nómina");
-        }
-    }
 
     @Override
-    public MensajeDTO spGenerarNominaMasiva(Integer pdIdPeriodo) {
+    public String spGenerarNominaMasiva(Integer pdIdPeriodo) {
 
         try{
-            Mensaje mensaje = repo
+            List<Mensaje> mensajes = repo
                     .spGenerarNominaMasiva(pdIdPeriodo);
 
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
+            if (!mensajes.isEmpty()) {
+                return mensajes.get(0).getMensaje(); // mensaje del SP
+            }
+            return "No se recibió respuesta del procedimiento.";
         }
         catch(DataAccessException e){
-            throw new DataBaseException("Error al generar las nóminas masiva");
+            // Extraer mensaje real si viene desde SQL Server
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
     }
 
     @Override
-    public MensajeDTO spLiquidarNomina(Integer pnIdPeriodo) {
+    @Transactional
+    public MensajeDTO liquidarPeriodo(Integer idPeriodo) {
+        try {
+            List<Object[]> resultado = repo.spLiquidarPeriodo(idPeriodo);
 
-        try{
-            Mensaje mensaje = repo
-                    .spLiquidarNomina(pnIdPeriodo);
+            if (!resultado.isEmpty()) {
+                Object[] fila = resultado.get(0);
+                String estado = fila[0].toString();
+                String mensaje = fila[1].toString();
+                return new MensajeDTO(estado, mensaje);
+            } else {
+                return new MensajeDTO("ERROR", "No se recibió respuesta del procedimiento.");
+            }
 
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al liquidar la nómina");
+        } catch (DataAccessException e) {
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
     }
+
 
 }

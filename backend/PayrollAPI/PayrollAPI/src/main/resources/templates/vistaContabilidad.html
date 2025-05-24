@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen Contable por Empleado</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+        <link rel="stylesheet" th:href="@{/css/contabilidad.css}">
+    </th:block>
+
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"
+     th:if="${#httpServletRequest.session.getAttribute('periodoId') != null}"></div>
+<main class="contenido-pagina">
+<div class="container-contabilidad">
+    <div class="header-contabilidad">
+        <h2>Resumen Contable por Empleado</h2>
+        <p th:text="'Periodo: ' + ${contabilidad[0].periodoDescripcion}"></p>
+    </div>
+
+    <div class="cards-totales">
+        <div class="card-total salario">
+            <h4>Salarios</h4>
+            <p th:text="'COP $' + ${#numbers.formatDecimal(totales.totalSalarios, 0, 'COMMA', 2, 'POINT')}"></p>
+            <span th:text="${totales.porcentajeSalarios} + '%'"></span>
+        </div>
+        <div class="card-total aportes">
+            <h4>Aportes Patronales</h4>
+            <p th:text="'COP $' + ${#numbers.formatDecimal(totales.totalAportes, 0, 'COMMA', 2, 'POINT')}"></p>
+            <span th:text="${totales.porcentajeAportes} + '%'"></span>
+        </div>
+        <div class="card-total provisiones">
+            <h4>Provisiones</h4>
+            <p th:text="'COP $' + ${#numbers.formatDecimal(totales.totalProvisiones, 0, 'COMMA', 2, 'POINT')}"></p>
+            <span th:text="${totales.porcentajeProvisiones} + '%'"></span>
+        </div>
+        <div class="card-total total">
+            <h4>Total Contable</h4>
+            <p th:text="'COP $' + ${#numbers.formatDecimal(totales.totalGeneral, 0, 'COMMA', 2, 'POINT')}"></p>
+            <span>100%</span>
+        </div>
+    </div>
+
+
+    <div class="tabla-scroll">
+        <table class="tabla-contabilidad">
+            <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Cargo</th>
+                <th>Total Salario Pagado</th>
+                <th>Total Aportes Patronales</th>
+                <th>Total Provisiones</th>
+                <th><strong>Total Contable</strong></th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${contabilidad}">
+                <td th:text="${item.nombreEmpleado}"></td>
+                <td th:text="${item.cargo}"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.totalSalario, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.totalAportes, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.totalProvisiones, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="'COP $' + ${#numbers.formatDecimal(item.totalCostoEmpresa, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td>
+                    <button th:attr="onclick=|verAportes(${item.idEmpleado}, ${item.idPeriodo})|">Ver Aportes</button>
+                    <button th:attr="onclick=|verProvisiones(${item.idEmpleado}, ${item.idPeriodo})|">Ver Provisiones</button>
+                </td>
+
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="detalleContable"></div>
+    <script>
+        function verAportes(idEmpleado, idPeriodo) {
+            fetch(`/contabilidad/detalle-aportes?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
+                .then(res => res.json())
+                .then(data => renderTablaDetalle(data, "Aportes Patronales"));
+        }
+
+        function verProvisiones(idEmpleado, idPeriodo) {
+            fetch(`/contabilidad/detalle-provisiones?idPeriodo=${idPeriodo}&idEmpleado=${idEmpleado}`)
+                .then(res => res.json())
+                .then(data => renderTablaDetalle(data, "Provisiones"));
+        }
+
+        function renderTablaDetalle(lista, titulo) {
+            if (!lista || lista.length === 0) {
+                document.getElementById('detalleContable').innerHTML = `<p>No hay datos de ${titulo}.</p>`;
+                return;
+            }
+
+            let headers = Object.keys(lista[0]);
+            let table = `<h3>${titulo}</h3><table class="tabla-detalle"><thead><tr>`;
+            headers.forEach(h => table += `<th>${h}</th>`);
+            table += `</tr></thead><tbody>`;
+
+            lista.forEach(row => {
+                table += "<tr>";
+                headers.forEach(h => {
+                    const valor = row[h];
+
+                    // Formatear campo 'cantidad' como COP
+                    if (h.toLowerCase() === 'cantidad' && typeof valor === 'number') {
+                        table += `<td class="valor-cop">COP $${valor.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>`;
+                    } else {
+                        table += `<td>${valor}</td>`;
+                    }
+                });
+                table += "</tr>";
+            });
+
+            table += "</tbody></table>";
+            document.getElementById('detalleContable').innerHTML = table;
+        }
+
+    </script>
+</div>
+
+</main>
+</body>
+</html>

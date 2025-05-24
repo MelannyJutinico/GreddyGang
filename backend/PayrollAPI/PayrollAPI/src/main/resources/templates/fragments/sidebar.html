@@ -1,0 +1,16 @@
+<!-- templates/fragments/sidebar.html -->
+<div class="sidebar" th:fragment="sidebar">
+    <div class="sidebar-titulo">
+        <h3>Período</h3>
+        <p  th:if="${session.periodoNombre != null}" th:text="${session.periodoNombre}">Periodo actual</p>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li><a th:href="@{'/nomina/resumen?periodo=' + ${session.periodoId}}">Resumen de nomina</a></li>
+        <li><a th:href="@{'/contabilidad/ver?idPeriodo=' + ${session.periodoId} }">Resumen contable por empleado</a></li>
+        <li><a th:href="@{'/contabilidad/aportes?idPeriodo=' + ${session.periodoId}}">Aportes patronales</a></li>
+        <li><a th:href="@{'/contabilidad/provisiones?idPeriodo=' + ${session.periodoId}}">Provisiones</a></li>
+
+    </ul>
+    </ul>
+</div>

@@ -1,6 +1,6 @@
 package co.edu.unbosque.PayrollAPI.service.interfaces;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.TipoConceptoDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.TipoConceptoDTO;
 
 import java.util.List;
 

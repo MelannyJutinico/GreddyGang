@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/db/EXEC_SP.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/ddl/01_create_tables.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/listar.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/triggers/detalle_nomina/tbd_detalle_nomina_bloquear_eliminacion.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/triggers/nomina/tau_log_estado_nomina.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/triggers/novedad/tad_log_eliminacion_novedad.sql" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/db/triggers/novedad/trg_validar_eliminacion_novedad.sql" dialect="TSQL" />
+  </component>
+</project>

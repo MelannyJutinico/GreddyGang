@@ -1,0 +1,180 @@
+body {
+    background-color: #f4faff;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container-contabilidad {
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header-contabilidad {
+    background-color: #007acc;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 123, 204, 0.2);
+}
+
+.header-contabilidad h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header-contabilidad p {
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+.tabla-contabilidad {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 123, 204, 0.1);
+}
+
+.tabla-contabilidad th {
+    background-color: #007acc;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+.tabla-contabilidad td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.tabla-contabilidad tr:hover {
+    background-color: #e9f5ff;
+}
+
+.tabla-contabilidad td:last-child {
+    font-weight: bold;
+    color: #005f99;
+}
+/* Estilo para botones de acción */
+button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin-right: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #005f99;
+}
+
+/* Estilo para tabla de detalle (aportes y provisiones) */
+#detalleContable {
+    margin-top: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 123, 204, 0.1);
+}
+
+#detalleContable h3 {
+    margin-top: 0;
+    color: #007acc;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.tabla-detalle {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+.tabla-detalle th {
+    background-color: #007acc;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabla-detalle td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-detalle tr:hover {
+    background-color: #e9f5ff;
+}
+.valor-cop {
+    font-weight: bold;
+    color: #005f99;
+    text-align: right;
+}
+.cards-totales {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card-total {
+    flex: 1;
+    min-width: 220px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 123, 204, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card-total:hover {
+    transform: translateY(-4px);
+}
+
+.card-total h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.card-total p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    color: #007acc;
+}
+
+.card-total span {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Colores temáticos para cada tipo */
+.card-total.salario h4 { color: #4CAF50; }
+.card-total.salario p { color: #4CAF50; }
+
+.card-total.aportes h4 { color: #FF9800; }
+.card-total.aportes p { color: #FF9800; }
+
+.card-total.provisiones h4 { color: #9C27B0; }
+.card-total.provisiones p { color: #9C27B0; }
+
+.card-total.total h4 { color: #2196F3; }
+.card-total.total p { color: #2196F3; }

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Auditoría del Sistema</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/moduloAuditoria.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<main class="contenido-auditoria">
+    <h2><i class="fas fa-shield-alt"></i> Auditoría del Sistema</h2>
+
+    <!-- === Estado de Nómina === -->
+    <section class="auditoria-bloque">
+        <h3><i class="fas fa-history"></i> Cambios de Estado de Nómina</h3>
+        <form th:action="@{/auditoria/estado}" method="get" class="filtro-form">
+            <input type="number" name="idNomina" placeholder="ID Nómina">
+            <input type="text" name="usuario" placeholder="Usuario">
+            <input type="date" name="desde">
+            <input type="date" name="hasta">
+            <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+        </form>
+
+        <table th:if="${logsEstado}" class="tabla-auditoria">
+            <thead>
+            <tr>
+                <th>ID Nómina</th>
+                <th>Estado Anterior</th>
+                <th>Estado Nuevo</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logsEstado}">
+                <td th:text="${log.idNomina}">ID</td>
+                <td th:text="${log.estadoAnterior}">Anterior</td>
+                <td th:text="${log.estadoNuevo}">Nuevo</td>
+                <td th:text="${log.usuario}">Usuario</td>
+                <td th:text="${#temporals.format(log.fechaLog, 'yyyy-MM-dd HH:mm')}">Fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- === Intentos de Modificación === -->
+    <section class="auditoria-bloque">
+        <h3><i class="fas fa-user-edit"></i> Intentos de Modificación de Nómina</h3>
+        <form th:action="@{/auditoria/modificaciones}" method="get" class="filtro-form">
+            <input type="number" name="idNomina" placeholder="ID Nómina">
+            <input type="number" name="idConcepto" placeholder="ID Concepto">
+            <input type="text" name="usuario" placeholder="Usuario">
+            <input type="date" name="desde">
+            <input type="date" name="hasta">
+            <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+        </form>
+
+        <table th:if="${logsModNomina}" class="tabla-auditoria">
+            <thead>
+            <tr>
+                <th>ID Nómina</th>
+                <th>ID Concepto</th>
+                <th>Usuario</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logsModNomina}">
+                <td th:text="${log.idNomina}">ID Nómina</td>
+                <td th:text="${log.idConcepto}">Concepto</td>
+                <td th:text="${log.usuario}">Usuario</td>
+                <td th:text="${log.mensaje}">Mensaje</td>
+                <td th:text="${#temporals.format(log.fecha, 'yyyy-MM-dd HH:mm')}">Fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- === Auditoría de Novedades === -->
+    <section class="auditoria-bloque">
+        <h3><i class="fas fa-clipboard-check"></i> Auditoría de Novedades</h3>
+        <form th:action="@{/auditoria/novedades}" method="get" class="filtro-form">
+            <input type="number" name="idEmpleado" placeholder="ID Empleado">
+            <input type="number" name="idTipoNovedad" placeholder="ID Tipo Novedad">
+            <input type="text" name="accion" placeholder="Acción">
+            <input type="text" name="usuario" placeholder="Usuario">
+            <input type="date" name="desde">
+            <input type="date" name="hasta">
+            <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+        </form>
+
+        <table th:if="${logsNovedad}" class="tabla-auditoria">
+            <thead>
+            <tr>
+                <th>ID Novedad</th>
+                <th>ID Empleado</th>
+                <th>ID Tipo</th>
+                <th>Acción</th>
+                <th>Motivo</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log : ${logsNovedad}">
+                <td th:text="${log.idNovedad}">Novedad</td>
+                <td th:text="${log.idEmpleado}">Empleado</td>
+                <td th:text="${log.idTipoNovedad}">Tipo</td>
+                <td th:text="${log.accion}">Acción</td>
+                <td th:text="${log.motivo}">Motivo</td>
+                <td th:text="${log.usuario}">Usuario</td>
+                <td th:text="${#temporals.format(log.fechaLog, 'yyyy-MM-dd HH:mm')}">Fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

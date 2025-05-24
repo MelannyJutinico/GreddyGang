@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Empleados</title>
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/listaEmpleados.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    </th:block>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container-empleados">
+    <div class="encabezado-empleados">
+        <h2>Lista de Empleados</h2>
+        <a th:href="@{/empleados/crear}" class="btn-crear-empleado">+ Crear Empleado</a>
+    </div>
+
+
+    <div th:if="${successMessage}" class="mensaje-exito">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div class="filtro-estado">
+        <form method="get" th:action="@{/empleados/lista}">
+            <label for="estado">Filtrar por estado:   </label>
+            <select name="estado" id="estado" onchange="this.form.submit()">
+                <option value="todos" th:selected="${estado == 'todos'}">Todos</option>
+                <option value="activos" th:selected="${estado == 'activos'}">Activos</option>
+                <option value="inactivos" th:selected="${estado == 'inactivos'}">Inactivos</option>
+            </select>
+        </form>
+    </div>
+
+
+
+    <table class="tabla-empleados">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Departamento</th>
+            <th>Fecha Ingreso</th>
+            <th>Nivel Riesgo</th>
+            <th>Tipo Contrato</th>
+            <th>Auxilio Transporte</th>
+            <th>Salario Base</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+        <tr th:each="emp : ${empleados}"
+            th:classappend="${!emp.activo} ? 'fila-inactiva'">
+
+            <td th:text="${emp.nombre}"></td>
+            <td th:text="${emp.cargo}"></td>
+            <td th:text="${emp.departamento}"></td>
+            <td th:text="${emp.fechaIngreso}"></td>
+            <td th:text="${emp.nivelRiesgoDTO.nombre}"></td>
+            <td th:text="${emp.tipoContratoDTO.nombre}"></td>
+            <td th:text="${emp.recibeAuxilioTransporte} ? 'Sí' : 'No'"></td>
+            <td th:text="'COP $' + ${#numbers.formatDecimal(emp.salarioBase, 0, 'COMMA', 2, 'POINT')}"></td>
+            <td>
+                <form th:action="@{/empleados/desactivar}" method="post" th:if="${emp.activo}">
+                    <input type="hidden" name="idEmpleado" th:value="${emp.idEmpleado}" />
+                    <button type="submit" class="btn-desactivar">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+
+    </table>
+    </div>
+</body>
+</html>

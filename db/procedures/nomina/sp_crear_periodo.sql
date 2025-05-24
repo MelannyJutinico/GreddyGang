@@ -6,6 +6,17 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
+        -- Validar si ya existe un periodo con las mismas fechas exactas
+IF EXISTS (
+    SELECT 1 FROM periodo_nomina
+    WHERE fecha_inicio = @pd_fecha_inicio AND fecha_fin = @pd_fecha_fin
+)
+BEGIN
+    RAISERROR('Ya existe un período con estas fechas.', 16, 1);
+    RETURN;
+END
+
+
     -- Validar fechas
     IF @pd_fecha_inicio > @pd_fecha_fin
     BEGIN

@@ -53,6 +53,7 @@ BEGIN
         @pn_valor_total
     );
 
-    SELECT 'OK' AS estado, 'Nóminas masivas generadas exitosamente.' AS mensaje;
+    SELECT 'OK' AS estado, 'Concepto agregado exitosamente.' AS mensaje;
+
 END
 

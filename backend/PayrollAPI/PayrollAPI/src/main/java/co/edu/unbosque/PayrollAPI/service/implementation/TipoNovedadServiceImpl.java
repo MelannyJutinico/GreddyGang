@@ -1,6 +1,6 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.TipoNovedadDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.TipoNovedadDTO;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.ITipoNovedadRepository;
 import co.edu.unbosque.PayrollAPI.service.interfaces.ITipoNovedadService;

@@ -1,15 +1,11 @@
 package co.edu.unbosque.PayrollAPI.service.interfaces;
 
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
-
-import java.time.LocalDate;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
 
 public interface INominaService {
 
-    MensajeDTO spCrearNomina(Integer pnIdEmpleado, Integer pnIdPeriodo, LocalDate pdFechaLiquidacion);
 
-    MensajeDTO spGenerarNominaMasiva(Integer pdIdPeriodo);
-
-    MensajeDTO spLiquidarNomina(Integer pnIdPeriodo);
+    String spGenerarNominaMasiva(Integer pdIdPeriodo);
+    MensajeDTO liquidarPeriodo(Integer idPeriodo);
 
 }

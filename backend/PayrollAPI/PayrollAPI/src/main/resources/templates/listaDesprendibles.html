@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Desprendibles Generados</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/listaDesprendibles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="contenido-pdfs">
+    <h2><i class="fas fa-file-pdf"></i> Desprendibles Generados</h2>
+
+    <table th:if="${pdfs}" class="tabla-desprendibles">
+        <thead>
+        <tr>
+            <th>ID Empleado</th>
+            <th>ID Periodo</th>
+            <th>Nombre Archivo</th>
+            <th>Fecha Generación</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pdf : ${pdfs}">
+            <td th:text="${pdf.idEmpleado}">Empleado</td>
+            <td th:text="${pdf.idPeriodo}">Periodo</td>
+            <td th:text="${pdf.nombreArchivo}">Archivo</td>
+            <td th:text="${pdf.fechaGeneracion}">Fecha</td>
+            <td>
+                <a th:href="@{/nomina/pdf/descargar(id=${pdf.id})}" class="descargar-link">
+                    <i class="fas fa-download"></i> Descargar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${pdfs.size() == 0}" class="mensaje-vacio">
+        <p>No hay desprendibles generados aún.</p>
+    </div>
+</main>
+
+</body>
+</html>

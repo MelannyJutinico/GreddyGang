@@ -9,6 +9,12 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
+    IF @pn_porcentaje_pago < 0
+        BEGIN
+            RAISERROR('El porcentaje de pago no puede ser negativo.', 16, 1);
+            RETURN;
+        END
+
     -- Validar que la fecha inicio no sea mayor a la fecha fin
     IF @pd_fecha_inicio > @pd_fecha_fin
     BEGIN

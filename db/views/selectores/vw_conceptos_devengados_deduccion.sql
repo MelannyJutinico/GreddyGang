@@ -1,6 +1,7 @@
 CREATE OR ALTER VIEW vw_conceptos_devengados_deduccion AS
 SELECT 
     c.id_concepto,
+    c.id_tipo_concepto,
     c.nombre,
     tc.nombre AS tipo_concepto,
     c.descripcion

@@ -1,8 +1,8 @@
 package co.edu.unbosque.PayrollAPI.service.implementation;
 
-import co.edu.unbosque.PayrollAPI.dto.complex.NovedadTipoNovedadDTO;
-import co.edu.unbosque.PayrollAPI.dto.regular.MensajeDTO;
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.dto.complex.NovedadTipoNovedadDTO;
+import co.edu.unbosque.PayrollAPI.model.dto.regular.MensajeDTO;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
 import co.edu.unbosque.PayrollAPI.exception.exception.DataBaseException;
 import co.edu.unbosque.PayrollAPI.repository.INovedadRepository;
 import co.edu.unbosque.PayrollAPI.service.interfaces.INovedadService;
@@ -31,43 +31,49 @@ public class NovedadServiceImpl implements INovedadService {
     public MensajeDTO spAgregarNovedad(Integer idEmpleado, Integer idTipoNovedad, LocalDate fechaInicio, LocalDate fechaFin, BigDecimal porcentajePago, String observacion) {
 
         try{
-            Mensaje mensaje = repo
+            List<Mensaje> mensajes  = repo
                     .spAgregarNovedad(idEmpleado, idTipoNovedad, fechaInicio, fechaFin, porcentajePago, observacion);
 
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
+            if (!mensajes.isEmpty()) {
+                return modelMapper
+                        .map(mensajes.get(0),
+                                MensajeDTO.class);
+            }
+            return new MensajeDTO("ERROR", "No se recibió respuesta del procedimiento.");
         }
         catch(DataAccessException e){
-            throw new DataBaseException("Error al agregar novedad");
+            // Extraer mensaje real si viene desde SQL Server
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
+
     }
 
-    @Override
-    public MensajeDTO spAplicarNovedades(Integer idPeriodo) {
-
-        try{
-            Mensaje mensaje = repo
-                    .spAplicarNovedades(idPeriodo);
-
-            return modelMapper
-                    .map(mensaje, MensajeDTO.class);
-        }
-        catch(DataAccessException e){
-            throw new DataBaseException("Error al aplicar novedades");
-        }
-    }
 
     @Override
-    public List<NovedadTipoNovedadDTO> spListarNovedadesUltimosDosMeses(Integer pnIdEmpleado) {
+    public List<NovedadTipoNovedadDTO> spListarNovedadesDelPeriodo(Integer pnIdEmpleado, Integer pnIdPeriodo) {
         try{
             return repo
-                    .spListarNovedadesUltimosDosMeses(pnIdEmpleado)
+                    .spListarNovedadesDelPeriodo(pnIdEmpleado, pnIdPeriodo)
                     .stream()
                     .map((novedadTipoNovedadProjection -> modelMapper.map(novedadTipoNovedadProjection,NovedadTipoNovedadDTO.class)))
                     .collect(Collectors.toList());
         }
         catch(DataAccessException e){
-            throw new DataBaseException("Error al aplicar novedades");
+            // Extraer mensaje real si viene desde SQL Server
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
+        }
+    }
+
+    @Override
+    public MensajeDTO spEliminarNovedad(Integer idNovedad) {
+        try {
+            Mensaje mensaje = repo.spEliminarNovedad(idNovedad);
+            return modelMapper.map(mensaje, MensajeDTO.class);
+        } catch(DataAccessException e){
+            String detalle = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new DataBaseException(detalle);
         }
     }
 

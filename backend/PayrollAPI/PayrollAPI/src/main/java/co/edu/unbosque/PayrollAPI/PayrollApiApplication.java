@@ -3,6 +3,7 @@ package co.edu.unbosque.PayrollAPI;
 import co.edu.unbosque.PayrollAPI.repository.INominaRepositoy;
 import co.edu.unbosque.PayrollAPI.repository.INovedadRepository;
 import co.edu.unbosque.PayrollAPI.repository.IPeriodoNominaRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,4 +29,6 @@ public class PayrollApiApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 	}
+
+
 }

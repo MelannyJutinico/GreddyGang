@@ -1,7 +1,7 @@
 package co.edu.unbosque.PayrollAPI.repository;
 
-import co.edu.unbosque.PayrollAPI.entity.Mensaje;
-import co.edu.unbosque.PayrollAPI.entity.PeriodoNomina;
+import co.edu.unbosque.PayrollAPI.model.entity.Mensaje;
+import co.edu.unbosque.PayrollAPI.model.entity.PeriodoNomina;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -43,13 +43,16 @@ public interface IPeriodoNominaRepository extends CrudRepository<PeriodoNomina, 
 
 
     @Query(
-            value = "SELECT * FROM vw_periodo_nomina",
+            value = "SELECT * FROM vw_periodo_nomina_activo",
             nativeQuery = true
     )
-    List<PeriodoNomina> vwPeriodoNomina();
+    List<PeriodoNomina> vwPeriodoNominaActivo();
 
 
-
-
+    @Query(
+            value = "SELECT * FROM vw_periodos_nomina_cerrados",
+            nativeQuery = true
+    )
+    List<PeriodoNomina> vwPeriodosNominaCerrados();
 
 }
