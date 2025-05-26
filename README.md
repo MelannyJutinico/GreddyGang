@@ -7,13 +7,13 @@
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 Este sistema permite automatizar el proceso de liquidación de nómina para una empresa en Colombia, en cumplimiento con la normativa laboral vigente. Incluye funcionalidades para calcular salarios, deducciones obligatorias, aportes patronales y prestaciones sociales. Además, soporta el manejo de novedades laborales (incapacidades, licencias, etc.) y generación de reportes para auditoría y seguimiento.
 
 ---
 
-## ☁️ Entidades y Propósito en el Modelo
+## Entidades y Propósito en el Modelo
 
 - `empleado`: almacena los datos de cada trabajador de la organización, incluyendo salario, cargo, afiliaciones y contrato.  
 - `tipo_contrato`: clasifica el tipo de vínculo laboral (fijo, indefinido, aprendiz, etc.).  
@@ -37,7 +37,7 @@ Este sistema permite automatizar el proceso de liquidación de nómina para una 
 
 
 
-## 📁 Estructura del Proyecto y Archivos
+## Estructura del Proyecto y Archivos
 
 ### `ddl/` – Creación de Tablas
 
@@ -148,7 +148,7 @@ Este sistema permite automatizar el proceso de liquidación de nómina para una 
 
 ---
 
-## ✅ Recomendaciones Finales
+## Recomendaciones Finales
 
 - Ejecutar los scripts en orden: primero DDL, luego DML, funciones, procedimientos, triggers y vistas.
 - Utilizar SQL Server Management Studio (SSMS) para ejecutar los scripts.
@@ -158,7 +158,7 @@ Este sistema permite automatizar el proceso de liquidación de nómina para una 
 
 ---
 
-## 📄 Notas Finales
+## Notas Finales
 
 - Modelo relacional completamente normalizado en 3FN.
 - Modular, escalable y preparado para integración con aplicaciones web.
